@@ -1,0 +1,13 @@
+D:\03_project\07_gui\SegViewer\SegViewer\bin\x64\Debug\SimpleITKCSharpNative.dll
+D:\03_project\07_gui\SegViewer\SegViewer\bin\x64\Debug\SegViewer.exe.config
+D:\03_project\07_gui\SegViewer\SegViewer\bin\x64\Debug\SegViewer.exe
+D:\03_project\07_gui\SegViewer\SegViewer\bin\x64\Debug\SegViewer.pdb
+D:\03_project\07_gui\SegViewer\SegViewer\bin\x64\Debug\SimpleITKCSharpManaged.dll
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.Form1.resources
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.Properties.Resources.resources
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.csproj.GenerateResource.cache
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.csproj.CoreCompileInputs.cache
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.csproj.CopyComplete
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.exe
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.pdb
+D:\03_project\07_gui\SegViewer\SegViewer\obj\x64\Debug\SegViewer.csprojAssemblyReference.cache

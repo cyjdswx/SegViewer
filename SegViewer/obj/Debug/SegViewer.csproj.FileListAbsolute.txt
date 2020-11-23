@@ -1,0 +1,10 @@
+D:\03_project\07_gui\SegViewer\SegViewer\bin\Debug\SegViewer.exe.config
+D:\03_project\07_gui\SegViewer\SegViewer\bin\Debug\SegViewer.exe
+D:\03_project\07_gui\SegViewer\SegViewer\bin\Debug\SegViewer.pdb
+D:\03_project\07_gui\SegViewer\SegViewer\obj\Debug\SegViewer.csprojAssemblyReference.cache
+D:\03_project\07_gui\SegViewer\SegViewer\obj\Debug\SegViewer.Form1.resources
+D:\03_project\07_gui\SegViewer\SegViewer\obj\Debug\SegViewer.Properties.Resources.resources
+D:\03_project\07_gui\SegViewer\SegViewer\obj\Debug\SegViewer.csproj.GenerateResource.cache
+D:\03_project\07_gui\SegViewer\SegViewer\obj\Debug\SegViewer.csproj.CoreCompileInputs.cache
+D:\03_project\07_gui\SegViewer\SegViewer\obj\Debug\SegViewer.exe
+D:\03_project\07_gui\SegViewer\SegViewer\obj\Debug\SegViewer.pdb
