@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using itk.simple;
-using PixelId = itk.simple.PixelIDValueEnum;
 
+using PixelId = itk.simple.PixelIDValueEnum;
 
 namespace SegViewer
 {
@@ -39,6 +39,8 @@ namespace SegViewer
         private int T2Height;
         private int T2Slice;
         private string T1_path;
+        private int questionNum = 3;
+
         float[][] ContrastArray = {
                             new float[] {1.0f, 0, 0, 0, 0},
                             new float[] {0, 1.0f, 0, 0, 0},
@@ -65,8 +67,9 @@ namespace SegViewer
         private void T1MRIToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
-            //file.InitialDirectory = Directory.GetCurrentDirectory();
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
+            file.FilterIndex = 2;
+            file.RestoreDirectory = true;
             if (file.ShowDialog() == DialogResult.OK)
             {
                 string pathname = file.FileName;
@@ -164,6 +167,22 @@ namespace SegViewer
                 indexText = string.Format("1 of {0}", T1Slice);
                 Annot2Index.Text = indexText;
 
+                this.saveInfoDisplay.ForeColor = System.Drawing.Color.Green;
+                this.saveInfoDisplay.Text = "Ready to write";
+
+                foreach(RadioButton rb in this.Q1Box.Controls)
+                {
+                    rb.Checked = false;
+                }
+                foreach (RadioButton rb in this.Q2Box.Controls)
+                {
+                    rb.Checked = false;
+                }
+                foreach (RadioButton rb in this.Q3Box.Controls)
+                {
+                    rb.Checked = false;
+                }
+
                 T1Flag = true;
                 Annot1Flag = false;
                 Annot2Flag = false;
@@ -175,6 +194,8 @@ namespace SegViewer
         {
             OpenFileDialog file = new OpenFileDialog();
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
+            file.FilterIndex = 2;
+            file.RestoreDirectory = true;
             if (file.ShowDialog() == DialogResult.OK)
             {
                 string pathname = file.FileName;
@@ -344,6 +365,8 @@ namespace SegViewer
         {
             OpenFileDialog file = new OpenFileDialog();
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
+            file.FilterIndex = 2;
+            file.RestoreDirectory = true;
             if (file.ShowDialog() == DialogResult.OK)
             {
                 if (null != T1imageBMP)
@@ -392,6 +415,8 @@ namespace SegViewer
         {
             OpenFileDialog file = new OpenFileDialog();
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
+            file.FilterIndex = 2;
+            file.RestoreDirectory = true;
             if (file.ShowDialog() == DialogResult.OK)
             {
                 if (null != T1imageBMP)
@@ -495,7 +520,7 @@ namespace SegViewer
 
         private void Brightness_ValueChanged(object sender, EventArgs e)
         {
-            float brightness = ((float)this.BrightnessScrollbar.Value + 1) / 50 - 1.0f;
+            float brightness = ((float)this.BrightnessScrollbar.Value + 1) / 100 - 0.5f;
             Graphics g;
             ContrastArray[4][0] = brightness;
             ContrastArray[4][1] = brightness;
@@ -593,12 +618,62 @@ namespace SegViewer
 
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
-            string questionairAnswer = "";
-            questionairAnswer += T1_path;
-            using (System.IO.StreamWriter file =
-                new System.IO.StreamWriter(@".\WriteLines2.txt", true))
+            if (T1Flag && Annot1Flag && Annot2Flag)
             {
-                file.WriteLine(questionairAnswer);
+                string questionairAnswer = "";
+                string[] T1PathSub = T1_path.Split('\\');
+
+                questionairAnswer += T1PathSub[T1PathSub.Length-1];
+                List<GroupBox> QBoxlist = new List<GroupBox>();
+                QBoxlist.Add(Q1Box);
+                QBoxlist.Add(Q2Box);
+                QBoxlist.Add(Q3Box);
+                for (int i = 0; i < questionNum; ++i)
+                {
+                    var radioButtons = QBoxlist[i].Controls.OfType<RadioButton>().ToArray();
+                    bool ischecked = false;
+                    for (int j = 0; j < radioButtons.Length; ++j)
+                    {
+                        if (radioButtons[j].Checked)
+                        {
+                            questionairAnswer += " " + (j + 1);
+                            ischecked = true;
+                            break;
+                        }
+                    }
+                    if (!ischecked)
+                    {
+                        MessageBox.Show("Please complete the questionaire", "Error");
+                        return;
+                    }
+                }
+                using (System.IO.StreamWriter file =
+                    new System.IO.StreamWriter(@".\QuestionairResult.txt", true))
+                {
+                    file.WriteLine(questionairAnswer);
+                }
+                this.saveInfoDisplay.ForeColor = System.Drawing.Color.Red;
+                this.saveInfoDisplay.Text = "Save path:\n"+ System.IO.Directory.GetCurrentDirectory()+ "\\QuestionairResult.txt\n" + "Recorded case:\n" + T1PathSub[T1PathSub.Length - 1];
+            }
+            else
+            {
+                MessageBox.Show("Please load T1, annotation1 and annotation2", "Error");
+            }
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            foreach (RadioButton rb in this.Q1Box.Controls)
+            {
+                rb.Checked = false;
+            }
+            foreach (RadioButton rb in this.Q2Box.Controls)
+            {
+                rb.Checked = false;
+            }
+            foreach (RadioButton rb in this.Q3Box.Controls)
+            {
+                rb.Checked = false;
             }
         }
     }
