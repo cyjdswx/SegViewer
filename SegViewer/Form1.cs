@@ -38,7 +38,10 @@ namespace SegViewer
         private int T2Width;
         private int T2Height;
         private int T2Slice;
-        private string T1_path;
+        private string T1_name;
+        private string T2_name;
+        private string A1_name;
+        private string A2_name;
         private int questionNum = 3;
 
         float[][] ContrastArray = {
@@ -67,13 +70,13 @@ namespace SegViewer
         private void T1MRIToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
-            file.FilterIndex = 2;
-            file.RestoreDirectory = true;
-            if (file.ShowDialog() == DialogResult.OK)
+            if (file.ShowDialog(this) == DialogResult.OK)
             {
                 string pathname = file.FileName;
-                T1_path = pathname;
+                string[] T1PathSub = pathname.Split('\\');
+                T1_name = T1PathSub[T1PathSub.Length - 1];
                 itk.simple.Image input = SimpleITK.ReadImage(pathname);
                 input = SimpleITK.Cast(input, PixelId.sitkFloat32);
 
@@ -89,7 +92,7 @@ namespace SegViewer
                 int len = 1;
                 T1Width = (int)size[0];
                 T1Height = (int)size[1];
-                if(input.GetDimension()>=2)
+                if (input.GetDimension() >= 2)
                 {
                     T1Slice = (int)size[2];
                 }
@@ -105,13 +108,30 @@ namespace SegViewer
                 float[] bufferAsArray = new float[len];
                 Marshal.Copy(buffer, bufferAsArray, 0, len);
                 T1Buffer = new Byte[len * 3]; //RGB
+
+                // *rotate and scale
+                T1Width = (int)size[1];
+                T1Height = (int)size[0];
+                for (int i = 0; i < T1Slice; ++i)
+                {
+                    for (int j = 0; j < T1Height; ++j)
+                    {
+                        for (int k = 0; k < T1Width; ++k)
+                        {
+                            T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)] = (Byte)(bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height] / ImageHighestIntensity * 255);
+                            T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1] = (Byte)(bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height] / ImageHighestIntensity * 255);
+                            T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] = (Byte)(bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height] / ImageHighestIntensity * 255);
+                        }
+                    }
+                }     
+                /*
                 for (int i = 0; i < len; ++i)
                 {
                     T1Buffer[3 * i] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
                     T1Buffer[3 * i + 1] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
                     T1Buffer[3 * i + 2] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
                 }
-
+                */
                 //display orignal image
                 T1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
                 var BoundsRect = new Rectangle(0, 0, T1Width, T1Height);
@@ -142,12 +162,21 @@ namespace SegViewer
                 g.DrawImage(T1imageBMP, new Rectangle(0, 0, T1AdjustedBmp.Width, T1AdjustedBmp.Height)
                             , 0, 0, T1imageBMP.Width, T1imageBMP.Height,
                             GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T1_name, drawFont,drawBrush,0.0f, 10.0f);
                 this.OriT1.Image = T1AdjustedBmp;
 
                 // setScrollbar range
                 this.T1ScrollBar.Maximum = T1Slice + this.T1ScrollBar.LargeChange - 2;
                 string indexText = string.Format("1 of {0}", T1Slice);
                 this.T1Index.Text = indexText;
+
+                T1Flag = true;
+                Annot1Flag = false;
+                Annot2Flag = false;
 
                 //Display image for annotation1
                 Annot1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
@@ -157,6 +186,7 @@ namespace SegViewer
                 Annot1ScrollBar.Maximum = T1Slice + Annot1ScrollBar.LargeChange - 2;
                 indexText = string.Format("1 of {0}", T1Slice);
                 Annot1Index.Text = indexText;
+                this.Annot1ScrollBar.Value = 0;
 
                 //Display image for annotation2
                 Annot2imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
@@ -166,26 +196,37 @@ namespace SegViewer
                 Annot2ScrollBar.Maximum = T1Slice + Annot2ScrollBar.LargeChange - 2;
                 indexText = string.Format("1 of {0}", T1Slice);
                 Annot2Index.Text = indexText;
+                this.Annot2ScrollBar.Value = 0;
 
                 this.saveInfoDisplay.ForeColor = System.Drawing.Color.Green;
                 this.saveInfoDisplay.Text = "Ready to write";
+                this.T1ScrollBar.Value = 0;
 
-                foreach(RadioButton rb in this.Q1Box.Controls)
+                foreach(RadioButton rb in this.Q1Box.Controls.OfType<RadioButton>())
                 {
                     rb.Checked = false;
                 }
-                foreach (RadioButton rb in this.Q2Box.Controls)
+                foreach (CheckBox cb in this.Q1Box.Controls.OfType<CheckBox>())
+                {
+                    cb.Checked = false;
+                }
+                foreach (RadioButton rb in this.Q2Box.Controls.OfType<RadioButton>())
                 {
                     rb.Checked = false;
                 }
-                foreach (RadioButton rb in this.Q3Box.Controls)
+                foreach (CheckBox cb in this.Q2Box.Controls.OfType<CheckBox>())
+                {
+                    cb.Checked = false;
+                }
+                foreach (RadioButton rb in this.Q3Box.Controls.OfType<RadioButton>())
                 {
                     rb.Checked = false;
+                }
+                foreach (CheckBox cb in this.Q3Box.Controls.OfType<CheckBox>())
+                {
+                    cb.Checked = false;
                 }
 
-                T1Flag = true;
-                Annot1Flag = false;
-                Annot2Flag = false;
             }
             //this.OriT1.
         }
@@ -193,12 +234,13 @@ namespace SegViewer
         private void T2MRIToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
-            file.FilterIndex = 2;
-            file.RestoreDirectory = true;
-            if (file.ShowDialog() == DialogResult.OK)
+            if (file.ShowDialog(this) == DialogResult.OK)
             {
                 string pathname = file.FileName;
+                string[] T2PathSub = pathname.Split('\\');
+                T2_name = T2PathSub[T2PathSub.Length - 1];
                 itk.simple.Image input = SimpleITK.ReadImage(pathname);
                 input = SimpleITK.Cast(input, PixelId.sitkFloat32);
 
@@ -230,13 +272,30 @@ namespace SegViewer
                 float[] bufferAsArray = new float[len];
                 Marshal.Copy(buffer, bufferAsArray, 0, len);
                 T2Buffer = new Byte[len * 3];  //RGB
+
+                // *rotate and scale
+                T2Width = (int)size[1];
+                T2Height = (int)size[0];
+                for (int i = 0; i < T2Slice; ++i)
+                { 
+                    for (int j = 0; j < T2Height; ++j)
+                    {
+                        for (int k = 0; k < T2Width; ++k)
+                        {
+                            T2Buffer[3 * (k + j * T2Width + i * T2Width * T2Height)] = (Byte)(bufferAsArray[j + T2Height * (T2Width - 1 - k) + i * T2Width * T2Height] / ImageHighestIntensity * 255);
+                            T2Buffer[3 * (k + j * T2Width + i * T2Width * T2Height) + 1] = (Byte)(bufferAsArray[j + T2Height * (T2Width - 1 - k) + i * T2Width * T2Height] / ImageHighestIntensity * 255);
+                            T2Buffer[3 * (k + j * T2Width + i * T2Width * T2Height) + 2] = (Byte)(bufferAsArray[j + T2Height * (T2Width - 1 - k) + i * T2Width * T2Height] / ImageHighestIntensity * 255);
+                        }
+                    }
+                }
+                /*
                 for (int i = 0; i < len; ++i)
                 {
                     T2Buffer[3 * i] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
                     T2Buffer[3 * i + 1] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
                     T2Buffer[3 * i + 2] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
                 }
-
+                */
                 T2imageBMP = new Bitmap(T2Width, T2Height, PixelFormat.Format24bppRgb);
                 var BoundsRect = new Rectangle(0, 0, T2Width, T2Height);
                 BitmapData bmpData = T2imageBMP.LockBits(BoundsRect,
@@ -267,7 +326,11 @@ namespace SegViewer
                 g.DrawImage(T2imageBMP, new Rectangle(0, 0, T2AdjustedBmp.Width, T2AdjustedBmp.Height)
                             , 0, 0, T2imageBMP.Width, T2imageBMP.Height,
                             GraphicsUnit.Pixel, imageAttributes);
-
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 this.OriT2.Image = T2AdjustedBmp;
                 // setScrollbar range
                 if (input.GetDimension() >= 2)
@@ -277,7 +340,7 @@ namespace SegViewer
                 }
                 string indexText = string.Format("1 of {0}", T1Slice);
                 this.T2Index.Text = indexText;
-
+                this.T2ScrollBar.Value = 0;
                 T2Flag = true;
             }
         }
@@ -295,10 +358,24 @@ namespace SegViewer
                 g.DrawImage(T1imageBMP, new Rectangle(0, 0, T1AdjustedBmp.Width, T1AdjustedBmp.Height)
                             , 0, 0, T1imageBMP.Width, T1imageBMP.Height,
                             GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T1_name, drawFont, drawBrush, 0.0f, 10.0f);
                 this.OriT1.Image = T1AdjustedBmp;
 
                 string indexText = string.Format("{0} of {1}", this.T1ScrollBar.Value + 1, T1Slice);
                 this.T1Index.Text = indexText;
+                if(this.synCheck.Checked)
+                {
+                    this.Annot1ScrollBar.Value = this.T1ScrollBar.Value;
+                    this.Annot2ScrollBar.Value = this.T1ScrollBar.Value;
+                    if(T2Flag && T2Slice == T1Slice)
+                    {
+                        this.T2ScrollBar.Value = this.T1ScrollBar.Value;
+                    }
+                }
             }
         }
 
@@ -315,11 +392,22 @@ namespace SegViewer
                 g.DrawImage(T2imageBMP, new Rectangle(0, 0, T2AdjustedBmp.Width, T2AdjustedBmp.Height)
                             , 0, 0, T2imageBMP.Width, T2imageBMP.Height,
                             GraphicsUnit.Pixel, imageAttributes);
-
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 this.OriT2.Image = T2AdjustedBmp;
 
                 string indexText = string.Format("{0} of {1}", this.T2ScrollBar.Value + 1, T2Slice);
                 this.T2Index.Text = indexText;
+
+                if (this.synCheck.Checked && T1Flag && T2Slice == T1Slice)
+                {
+                    this.T1ScrollBar.Value = this.T2ScrollBar.Value;
+                    this.Annot1ScrollBar.Value = this.T2ScrollBar.Value;
+                    this.Annot2ScrollBar.Value = this.T2ScrollBar.Value;
+                }
             }
         }
 
@@ -336,8 +424,23 @@ namespace SegViewer
                 else
                 {
                     DiaplayImage(T1Width, T1Height, this.Annot1ScrollBar.Value, Annot1Buffer, ref Annot1imageBMP, ref Annotation1);
+                    Graphics g = Graphics.FromImage(Annot1imageBMP);
+                    // Create font and brush.
+                    Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                    SolidBrush drawBrush = new SolidBrush(Color.Red);
+                    // Draw at upper-left corner.
+                    g.DrawString(A1_name, drawFont, drawBrush, 0.0f, 10.0f);
                     string indexText = string.Format("{0} of {1}", this.Annot1ScrollBar.Value + 1, T1Slice);
                     this.Annot1Index.Text = indexText;
+                }
+                if (this.synCheck.Checked)
+                {
+                    this.T1ScrollBar.Value = this.Annot1ScrollBar.Value;
+                    this.Annot2ScrollBar.Value = this.Annot1ScrollBar.Value;
+                    if (T2Flag && T2Slice == T1Slice)
+                    {
+                        this.T2ScrollBar.Value = this.Annot1ScrollBar.Value;
+                    }
                 }
             }
         }
@@ -355,8 +458,23 @@ namespace SegViewer
                 else
                 {
                     DiaplayImage(T1Width, T1Height, this.Annot2ScrollBar.Value, Annot2Buffer, ref Annot2imageBMP, ref Annotation2);
+                    Graphics g = Graphics.FromImage(Annot2imageBMP);
+                    // Create font and brush.
+                    Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                    SolidBrush drawBrush = new SolidBrush(Color.Red);
+                    // Draw at upper-left corner.
+                    g.DrawString(A2_name, drawFont, drawBrush, 0.0f, 10.0f);
                     string indexText = string.Format("{0} of {1}", this.Annot2ScrollBar.Value + 1, T1Slice);
                     this.Annot2Index.Text = indexText;
+                }
+                if (this.synCheck.Checked)
+                {
+                    this.T1ScrollBar.Value = this.Annot2ScrollBar.Value;
+                    this.Annot1ScrollBar.Value = this.Annot2ScrollBar.Value;
+                    if (T2Flag && T2Slice == T1Slice)
+                    {
+                        this.T2ScrollBar.Value = this.Annot2ScrollBar.Value;
+                    }
                 }
             }
         }
@@ -364,14 +482,15 @@ namespace SegViewer
         private void annotation1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
-            file.FilterIndex = 2;
-            file.RestoreDirectory = true;
-            if (file.ShowDialog() == DialogResult.OK)
+            if (file.ShowDialog(this) == DialogResult.OK)
             {
                 if (null != T1imageBMP)
                 {
                     string pathname = file.FileName;
+                    string[] A1PathSub = pathname.Split('\\');
+                    A1_name = A1PathSub[A1PathSub.Length - 1];
                     itk.simple.Image input = SimpleITK.ReadImage(pathname);
                     input = SimpleITK.Cast(input, PixelId.sitkFloat32);
                     MinimumMaximumImageFilter filter = new MinimumMaximumImageFilter();
@@ -392,16 +511,37 @@ namespace SegViewer
                     float[] bufferAsArray = new float[len];
                     Marshal.Copy(buffer, bufferAsArray, 0, len);
                     Annot1Buffer = new Byte[len * 3];    //BGR
+
+                    // *rotate and scale
+                    for (int i = 0; i < T1Slice; ++i)
+                    {
+                        for (int j = 0; j < T1Height; ++j)
+                        {
+                            for (int k = 0; k < T1Width; ++k)
+                            {
+                                Annot1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)];
+                                Annot1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1];
+                                Annot1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] + 100 * (int)bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height]));
+                            }
+                        }
+                    }
+                    /*
                     for (int i = 0; i < len; ++i)
                     {
-                        Annot1Buffer[3 * i] =  T1Buffer[3 * i];
+                        Annot1Buffer[3 * i] = T1Buffer[3 * i];
                         Annot1Buffer[3 * i + 1] = T1Buffer[3 * i + 1];
-                        Annot1Buffer[3 * i + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * i + 2] + 100 * (int)bufferAsArray[i])); ;
+                        Annot1Buffer[3 * i + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * i + 2] + 100 * (int)bufferAsArray[i]));
                     }
+                    */
                     //Display image for annotation2
                     Annot1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-                    DiaplayImage(T1Width, T1Height, 0, Annot1Buffer, ref Annot1imageBMP, ref Annotation1);
-
+                    DiaplayImage(T1Width, T1Height, this.Annot1ScrollBar.Value, Annot1Buffer, ref Annot1imageBMP, ref Annotation1);
+                    Graphics g = Graphics.FromImage(Annot1imageBMP);
+                    // Create font and brush.
+                    Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                    SolidBrush drawBrush = new SolidBrush(Color.Red);
+                    // Draw at upper-left corner.
+                    g.DrawString(A1_name, drawFont, drawBrush, 0.0f, 10.0f);
                     Annot1Flag = true;
                 }
                 else
@@ -414,14 +554,15 @@ namespace SegViewer
         private void annotation2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
-            file.FilterIndex = 2;
-            file.RestoreDirectory = true;
-            if (file.ShowDialog() == DialogResult.OK)
+            if (file.ShowDialog(this) == DialogResult.OK)
             {
                 if (null != T1imageBMP)
                 {
                     string pathname = file.FileName;
+                    string[] A2PathSub = pathname.Split('\\');
+                    A2_name = A2PathSub[A2PathSub.Length - 1];
                     itk.simple.Image input = SimpleITK.ReadImage(pathname);
                     input = SimpleITK.Cast(input, PixelId.sitkFloat32);
                     MinimumMaximumImageFilter filter = new MinimumMaximumImageFilter();
@@ -442,16 +583,36 @@ namespace SegViewer
                     float[] bufferAsArray = new float[len];
                     Marshal.Copy(buffer, bufferAsArray, 0, len);
                     Annot2Buffer = new Byte[len * 3];    //BGR
+                    // *rotate and scale
+                    for (int i = 0; i < T1Slice; ++i)
+                    {
+                        for (int j = 0; j < T1Height; ++j)
+                        {
+                            for (int k = 0; k < T1Width; ++k)
+                            {
+                                Annot2Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)];
+                                Annot2Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1];
+                                Annot2Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] + 100 * (int)bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height]));
+                            }
+                        }
+                    }
+                    /*
                     for (int i = 0; i < len; ++i)
                     {
                         Annot2Buffer[3 * i] = T1Buffer[3 * i];
                         Annot2Buffer[3 * i + 1] = T1Buffer[3 * i + 1];
                         Annot2Buffer[3 * i + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * i + 2] + 100 * (int)bufferAsArray[i])); ;
                     }
+                    */
                     //Display image for annotation2
                     Annot1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-                    DiaplayImage(T1Width, T1Height, 0, Annot2Buffer, ref Annot2imageBMP, ref Annotation2);
-
+                    DiaplayImage(T1Width, T1Height, this.Annot2ScrollBar.Value, Annot2Buffer, ref Annot2imageBMP, ref Annotation2);
+                    Graphics g = Graphics.FromImage(Annot2imageBMP);
+                    // Create font and brush.
+                    Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                    SolidBrush drawBrush = new SolidBrush(Color.Red);
+                    // Draw at upper-left corner.
+                    g.DrawString(A2_name, drawFont, drawBrush, 0.0f, 10.0f);
                     Annot2Flag = true;
                 }
                 else
@@ -503,6 +664,11 @@ namespace SegViewer
                 g.DrawImage(T1imageBMP, new Rectangle(0, 0, T1AdjustedBmp.Width, T1AdjustedBmp.Height)
                         , 0, 0, T1imageBMP.Width, T1imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T1_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT1.Image = T1AdjustedBmp;
             }
             if (T2Flag)
@@ -512,6 +678,11 @@ namespace SegViewer
                 g.DrawImage(T2imageBMP, new Rectangle(0, 0, T2AdjustedBmp.Width, T2AdjustedBmp.Height)
                         , 0, 0, T2imageBMP.Width, T2imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT2.Image = T2AdjustedBmp;
             }
             string indexText = string.Format("{0}", this.ContrastScrollbar.Value + 1);
@@ -535,6 +706,11 @@ namespace SegViewer
                 g.DrawImage(T1imageBMP, new Rectangle(0, 0, T1AdjustedBmp.Width, T1AdjustedBmp.Height)
                         , 0, 0, T1imageBMP.Width, T1imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T1_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT1.Image = T1AdjustedBmp;
             }
             if(T2Flag)
@@ -544,6 +720,11 @@ namespace SegViewer
                 g.DrawImage(T2imageBMP, new Rectangle(0, 0, T2AdjustedBmp.Width, T2AdjustedBmp.Height)
                         , 0, 0, T2imageBMP.Width, T2imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT2.Image = T2AdjustedBmp;
             }
             string indexText = string.Format("{0}", this.BrightnessScrollbar.Value + 1);
@@ -567,6 +748,11 @@ namespace SegViewer
                 g.DrawImage(T1imageBMP, new Rectangle(0, 0, T1AdjustedBmp.Width, T1AdjustedBmp.Height)
                         , 0, 0, T1imageBMP.Width, T1imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T1_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT1.Image = T1AdjustedBmp;
             }
             if (T2Flag)
@@ -576,6 +762,11 @@ namespace SegViewer
                 g.DrawImage(T2imageBMP, new Rectangle(0, 0, T2AdjustedBmp.Width, T2AdjustedBmp.Height)
                         , 0, 0, T2imageBMP.Width, T2imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT2.Image = T2AdjustedBmp;
             }
             this.ContrastScrollbar.Value = 49;
@@ -600,6 +791,11 @@ namespace SegViewer
                 g.DrawImage(T1imageBMP, new Rectangle(0, 0, T1AdjustedBmp.Width, T1AdjustedBmp.Height)
                         , 0, 0, T1imageBMP.Width, T1imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T1_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT1.Image = T1AdjustedBmp;
             }
             if (T2Flag)
@@ -609,6 +805,11 @@ namespace SegViewer
                 g.DrawImage(T2imageBMP, new Rectangle(0, 0, T2AdjustedBmp.Width, T2AdjustedBmp.Height)
                         , 0, 0, T2imageBMP.Width, T2imageBMP.Height,
                         GraphicsUnit.Pixel, imageAttributes);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                SolidBrush drawBrush = new SolidBrush(Color.Red);
+                // Draw at upper-left corner.
+                g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT2.Image = T2AdjustedBmp;
             }
             this.BrightnessScrollbar.Value = 49;
@@ -621,9 +822,7 @@ namespace SegViewer
             if (T1Flag && Annot1Flag && Annot2Flag)
             {
                 string questionairAnswer = "";
-                string[] T1PathSub = T1_path.Split('\\');
-
-                questionairAnswer += T1PathSub[T1PathSub.Length-1];
+                questionairAnswer += T1_name;
                 List<GroupBox> QBoxlist = new List<GroupBox>();
                 QBoxlist.Add(Q1Box);
                 QBoxlist.Add(Q2Box);
@@ -646,6 +845,18 @@ namespace SegViewer
                         MessageBox.Show("Please complete the questionaire", "Error");
                         return;
                     }
+                    var checkBoxes = QBoxlist[i].Controls.OfType<CheckBox>().ToArray();
+                    for (int j = 0; j < checkBoxes.Length;++j)
+                    {
+                        if(checkBoxes[j].Checked)
+                        {
+                            questionairAnswer += " 1";
+                        }
+                        else
+                        {
+                            questionairAnswer += " 0";
+                        }
+                    }
                 }
                 using (System.IO.StreamWriter file =
                     new System.IO.StreamWriter(@".\QuestionairResult.txt", true))
@@ -653,7 +864,7 @@ namespace SegViewer
                     file.WriteLine(questionairAnswer);
                 }
                 this.saveInfoDisplay.ForeColor = System.Drawing.Color.Red;
-                this.saveInfoDisplay.Text = "Save path:\n"+ System.IO.Directory.GetCurrentDirectory()+ "\\QuestionairResult.txt\n" + "Recorded case:\n" + T1PathSub[T1PathSub.Length - 1];
+                this.saveInfoDisplay.Text = "Save path:\n"+ System.IO.Directory.GetCurrentDirectory()+ "\\QuestionairResult.txt\n" + "Recorded case:\n" + T1_name;
             }
             else
             {
@@ -663,17 +874,29 @@ namespace SegViewer
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            foreach (RadioButton rb in this.Q1Box.Controls)
+            foreach (RadioButton rb in this.Q1Box.Controls.OfType<RadioButton>())
             {
                 rb.Checked = false;
             }
-            foreach (RadioButton rb in this.Q2Box.Controls)
+            foreach (CheckBox cb in this.Q1Box.Controls.OfType<CheckBox>())
+            {
+                cb.Checked = false;
+            }
+            foreach (RadioButton rb in this.Q2Box.Controls.OfType<RadioButton>())
             {
                 rb.Checked = false;
             }
-            foreach (RadioButton rb in this.Q3Box.Controls)
+            foreach (CheckBox cb in this.Q2Box.Controls.OfType<CheckBox>())
+            {
+                cb.Checked = false;
+            }
+            foreach (RadioButton rb in this.Q3Box.Controls.OfType<RadioButton>())
             {
                 rb.Checked = false;
+            }
+            foreach (CheckBox cb in this.Q3Box.Controls.OfType<CheckBox>())
+            {
+                cb.Checked = false;
             }
         }
     }
