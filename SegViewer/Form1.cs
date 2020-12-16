@@ -66,10 +66,11 @@ namespace SegViewer
         {
             Application.Exit();
         }
-
+        [STAThread]
         private void T1MRIToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            file.ShowHelp = true;
             //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
             if (file.ShowDialog(this) == DialogResult.OK)
@@ -170,6 +171,7 @@ namespace SegViewer
                 this.OriT1.Image = T1AdjustedBmp;
 
                 // setScrollbar range
+                this.T1ScrollBar.Value = 0;
                 this.T1ScrollBar.Maximum = T1Slice + this.T1ScrollBar.LargeChange - 2;
                 string indexText = string.Format("1 of {0}", T1Slice);
                 this.T1Index.Text = indexText;
@@ -183,20 +185,21 @@ namespace SegViewer
                 //Annot1AdjustedBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
                 DiaplayImage(T1Width, T1Height, 0, T1Buffer, ref Annot1imageBMP, ref Annotation1);
                 // setScrollbar range
+                this.Annot1ScrollBar.Value = 0;
                 Annot1ScrollBar.Maximum = T1Slice + Annot1ScrollBar.LargeChange - 2;
                 indexText = string.Format("1 of {0}", T1Slice);
                 Annot1Index.Text = indexText;
-                this.Annot1ScrollBar.Value = 0;
+
 
                 //Display image for annotation2
                 Annot2imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
                 //Annot2AdjustedBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
                 DiaplayImage(T1Width, T1Height, 0, T1Buffer, ref Annot2imageBMP, ref Annotation2);
                 // setScrollbar range
+                this.Annot2ScrollBar.Value = 0;
                 Annot2ScrollBar.Maximum = T1Slice + Annot2ScrollBar.LargeChange - 2;
                 indexText = string.Format("1 of {0}", T1Slice);
                 Annot2Index.Text = indexText;
-                this.Annot2ScrollBar.Value = 0;
 
                 this.saveInfoDisplay.ForeColor = System.Drawing.Color.Green;
                 this.saveInfoDisplay.Text = "Ready to write";
@@ -230,10 +233,11 @@ namespace SegViewer
             }
             //this.OriT1.
         }
-
+        [STAThread]
         private void T2MRIToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            file.ShowHelp = true;
             //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
             if (file.ShowDialog(this) == DialogResult.OK)
@@ -333,6 +337,7 @@ namespace SegViewer
                 g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 this.OriT2.Image = T2AdjustedBmp;
                 // setScrollbar range
+                this.T2ScrollBar.Value = 0;
                 if (input.GetDimension() >= 2)
                 {
                     this.T2ScrollBar.Maximum = T2Slice;
@@ -340,7 +345,6 @@ namespace SegViewer
                 }
                 string indexText = string.Format("1 of {0}", T1Slice);
                 this.T2Index.Text = indexText;
-                this.T2ScrollBar.Value = 0;
                 T2Flag = true;
             }
         }
@@ -478,10 +482,11 @@ namespace SegViewer
                 }
             }
         }
-
+        [STAThread]
         private void annotation1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            file.ShowHelp = true;
             //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
             if (file.ShowDialog(this) == DialogResult.OK)
@@ -551,9 +556,11 @@ namespace SegViewer
             }
         }
 
+        [STAThread]
         private void annotation2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            file.ShowHelp = true;
             //file.InitialDirectory = "c:\\";
             file.Filter = "(*.nii;*.dcm)|*.nii;*.dcm";
             if (file.ShowDialog(this) == DialogResult.OK)
