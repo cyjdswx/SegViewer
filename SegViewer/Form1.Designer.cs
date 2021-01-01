@@ -1,6 +1,6 @@
 ﻿namespace SegViewer
 {
-    partial class Form1
+    partial class mainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -74,21 +74,30 @@
             this.Q2C2 = new System.Windows.Forms.CheckBox();
             this.PreviousButton = new System.Windows.Forms.Button();
             this.NextButton = new System.Windows.Forms.Button();
-            this.ContrastReset = new System.Windows.Forms.Button();
             this.ContrastScrollbar = new System.Windows.Forms.HScrollBar();
             this.ContrastLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.BrightnessScrollbar = new System.Windows.Forms.HScrollBar();
-            this.BrightnessReset = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.hScrollBar2 = new System.Windows.Forms.HScrollBar();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.hScrollBar3 = new System.Windows.Forms.HScrollBar();
-            this.button4 = new System.Windows.Forms.Button();
-            this.ContrastMonitor = new System.Windows.Forms.Label();
-            this.BrightnessMonitor = new System.Windows.Forms.Label();
             this.synCheck = new System.Windows.Forms.CheckBox();
+            this.PicboxLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.A2ScrollLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.A1ScrollLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.T2ScrollLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.T1ScrollLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.mainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.CommandLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.confirmButtonLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.selectButtonLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.q3LayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.q2LayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.q1LayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.contrastLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.contrastLabelLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.ContrastReset = new System.Windows.Forms.Button();
+            this.brightnessLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.brightnessLableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.brightnessLabel = new System.Windows.Forms.Label();
+            this.BrightnessReset = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Annotation1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OriT1)).BeginInit();
@@ -97,37 +106,58 @@
             this.Q1Box.SuspendLayout();
             this.Q3Box.SuspendLayout();
             this.Q2Box.SuspendLayout();
+            this.PicboxLayoutPanel.SuspendLayout();
+            this.A2ScrollLayoutPanel.SuspendLayout();
+            this.A1ScrollLayoutPanel.SuspendLayout();
+            this.T2ScrollLayoutPanel.SuspendLayout();
+            this.T1ScrollLayoutPanel.SuspendLayout();
+            this.mainLayoutPanel.SuspendLayout();
+            this.CommandLayoutPanel.SuspendLayout();
+            this.buttonLayoutPanel.SuspendLayout();
+            this.confirmButtonLayoutPanel.SuspendLayout();
+            this.selectButtonLayoutPanel.SuspendLayout();
+            this.q3LayoutPanel.SuspendLayout();
+            this.q2LayoutPanel.SuspendLayout();
+            this.q1LayoutPanel.SuspendLayout();
+            this.contrastLayoutPanel.SuspendLayout();
+            this.contrastLabelLayoutPanel.SuspendLayout();
+            this.brightnessLayoutPanel.SuspendLayout();
+            this.brightnessLableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // Annot1ScrollBar
             // 
-            this.Annot1ScrollBar.Location = new System.Drawing.Point(71, 313);
+            this.Annot1ScrollBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Annot1ScrollBar.Location = new System.Drawing.Point(0, 0);
             this.Annot1ScrollBar.Name = "Annot1ScrollBar";
-            this.Annot1ScrollBar.Size = new System.Drawing.Size(232, 28);
+            this.Annot1ScrollBar.Size = new System.Drawing.Size(368, 26);
             this.Annot1ScrollBar.TabIndex = 0;
             this.Annot1ScrollBar.ValueChanged += new System.EventHandler(this.A1ScrollBar_ValueChanged);
             // 
             // Annot2ScrollBar
             // 
-            this.Annot2ScrollBar.Location = new System.Drawing.Point(457, 313);
+            this.Annot2ScrollBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Annot2ScrollBar.Location = new System.Drawing.Point(0, 0);
             this.Annot2ScrollBar.Name = "Annot2ScrollBar";
-            this.Annot2ScrollBar.Size = new System.Drawing.Size(232, 28);
+            this.Annot2ScrollBar.Size = new System.Drawing.Size(369, 26);
             this.Annot2ScrollBar.TabIndex = 1;
             this.Annot2ScrollBar.ValueChanged += new System.EventHandler(this.A2ScrollBar_ValueChanged);
             // 
             // T1ScrollBar
             // 
-            this.T1ScrollBar.Location = new System.Drawing.Point(73, 655);
+            this.T1ScrollBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.T1ScrollBar.Location = new System.Drawing.Point(0, 0);
             this.T1ScrollBar.Name = "T1ScrollBar";
-            this.T1ScrollBar.Size = new System.Drawing.Size(232, 28);
+            this.T1ScrollBar.Size = new System.Drawing.Size(368, 26);
             this.T1ScrollBar.TabIndex = 2;
             this.T1ScrollBar.ValueChanged += new System.EventHandler(this.T1ScrollBar_ValueChanged);
             // 
             // T2ScrollBar
             // 
-            this.T2ScrollBar.Location = new System.Drawing.Point(457, 655);
+            this.T2ScrollBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.T2ScrollBar.Location = new System.Drawing.Point(0, 0);
             this.T2ScrollBar.Name = "T2ScrollBar";
-            this.T2ScrollBar.Size = new System.Drawing.Size(232, 28);
+            this.T2ScrollBar.Size = new System.Drawing.Size(369, 26);
             this.T2ScrollBar.TabIndex = 3;
             this.T2ScrollBar.ValueChanged += new System.EventHandler(this.T2ScrollBar_ValueChanged);
             // 
@@ -139,7 +169,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1360, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1182, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -149,7 +179,7 @@
             this.loadToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // loadToolStripMenuItem
@@ -202,10 +232,11 @@
             // Annotation1
             // 
             this.Annotation1.BackColor = System.Drawing.Color.Black;
-            this.Annotation1.Location = new System.Drawing.Point(24, 33);
+            this.Annotation1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Annotation1.Location = new System.Drawing.Point(3, 349);
             this.Annotation1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Annotation1.Name = "Annotation1";
-            this.Annotation1.Size = new System.Drawing.Size(336, 276);
+            this.Annotation1.Size = new System.Drawing.Size(435, 307);
             this.Annotation1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Annotation1.TabIndex = 5;
             this.Annotation1.TabStop = false;
@@ -213,10 +244,11 @@
             // OriT1
             // 
             this.OriT1.BackColor = System.Drawing.Color.Black;
-            this.OriT1.Location = new System.Drawing.Point(24, 375);
+            this.OriT1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OriT1.Location = new System.Drawing.Point(3, 4);
             this.OriT1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OriT1.Name = "OriT1";
-            this.OriT1.Size = new System.Drawing.Size(336, 276);
+            this.OriT1.Size = new System.Drawing.Size(435, 307);
             this.OriT1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.OriT1.TabIndex = 6;
             this.OriT1.TabStop = false;
@@ -224,10 +256,11 @@
             // Annotation2
             // 
             this.Annotation2.BackColor = System.Drawing.Color.Black;
-            this.Annotation2.Location = new System.Drawing.Point(405, 33);
+            this.Annotation2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Annotation2.Location = new System.Drawing.Point(444, 349);
             this.Annotation2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Annotation2.Name = "Annotation2";
-            this.Annotation2.Size = new System.Drawing.Size(336, 276);
+            this.Annotation2.Size = new System.Drawing.Size(436, 307);
             this.Annotation2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Annotation2.TabIndex = 7;
             this.Annotation2.TabStop = false;
@@ -235,52 +268,57 @@
             // OriT2
             // 
             this.OriT2.BackColor = System.Drawing.Color.Black;
-            this.OriT2.Location = new System.Drawing.Point(405, 375);
+            this.OriT2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OriT2.Location = new System.Drawing.Point(444, 4);
             this.OriT2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OriT2.Name = "OriT2";
-            this.OriT2.Size = new System.Drawing.Size(336, 276);
+            this.OriT2.Size = new System.Drawing.Size(436, 307);
             this.OriT2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.OriT2.TabIndex = 8;
             this.OriT2.TabStop = false;
             // 
             // T1Index
             // 
-            this.T1Index.AutoSize = true;
-            this.T1Index.Location = new System.Drawing.Point(305, 663);
+            this.T1Index.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.T1Index.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.T1Index.Location = new System.Drawing.Point(371, 0);
             this.T1Index.Name = "T1Index";
-            this.T1Index.Size = new System.Drawing.Size(0, 17);
+            this.T1Index.Size = new System.Drawing.Size(61, 25);
             this.T1Index.TabIndex = 9;
+            this.T1Index.Text = "test";
+            this.T1Index.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // T2Index
             // 
-            this.T2Index.AutoSize = true;
-            this.T2Index.Location = new System.Drawing.Point(687, 663);
+            this.T2Index.Location = new System.Drawing.Point(372, 0);
             this.T2Index.Name = "T2Index";
-            this.T2Index.Size = new System.Drawing.Size(0, 17);
+            this.T2Index.Size = new System.Drawing.Size(61, 25);
             this.T2Index.TabIndex = 10;
+            this.T2Index.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Annot1Index
             // 
-            this.Annot1Index.AutoSize = true;
-            this.Annot1Index.Location = new System.Drawing.Point(305, 321);
+            this.Annot1Index.Location = new System.Drawing.Point(371, 0);
             this.Annot1Index.Name = "Annot1Index";
-            this.Annot1Index.Size = new System.Drawing.Size(0, 17);
+            this.Annot1Index.Size = new System.Drawing.Size(61, 25);
             this.Annot1Index.TabIndex = 11;
+            this.Annot1Index.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Annot2Index
             // 
-            this.Annot2Index.AutoSize = true;
-            this.Annot2Index.Location = new System.Drawing.Point(688, 321);
+            this.Annot2Index.Location = new System.Drawing.Point(372, 0);
             this.Annot2Index.Name = "Annot2Index";
-            this.Annot2Index.Size = new System.Drawing.Size(0, 17);
+            this.Annot2Index.Size = new System.Drawing.Size(61, 25);
             this.Annot2Index.TabIndex = 12;
+            this.Annot2Index.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ClearButton
             // 
-            this.ClearButton.Location = new System.Drawing.Point(1092, 606);
+            this.ClearButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ClearButton.Location = new System.Drawing.Point(23, 5);
             this.ClearButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(87, 25);
+            this.ClearButton.Size = new System.Drawing.Size(90, 25);
             this.ClearButton.TabIndex = 13;
             this.ClearButton.Text = "Clear";
             this.ClearButton.UseVisualStyleBackColor = true;
@@ -288,10 +326,11 @@
             // 
             // ConfirmButton
             // 
-            this.ConfirmButton.Location = new System.Drawing.Point(1236, 606);
+            this.ConfirmButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ConfirmButton.Location = new System.Drawing.Point(161, 5);
             this.ConfirmButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ConfirmButton.Name = "ConfirmButton";
-            this.ConfirmButton.Size = new System.Drawing.Size(87, 25);
+            this.ConfirmButton.Size = new System.Drawing.Size(90, 25);
             this.ConfirmButton.TabIndex = 14;
             this.ConfirmButton.Text = "Confirm";
             this.ConfirmButton.UseVisualStyleBackColor = true;
@@ -301,7 +340,7 @@
             // 
             this.saveInfoDisplay.AutoSize = true;
             this.saveInfoDisplay.ForeColor = System.Drawing.Color.Green;
-            this.saveInfoDisplay.Location = new System.Drawing.Point(1079, 635);
+            this.saveInfoDisplay.Location = new System.Drawing.Point(3, 80);
             this.saveInfoDisplay.MaximumSize = new System.Drawing.Size(267, 123);
             this.saveInfoDisplay.Name = "saveInfoDisplay";
             this.saveInfoDisplay.Size = new System.Drawing.Size(98, 17);
@@ -310,38 +349,41 @@
             // 
             // Question1
             // 
+            this.Question1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.Question1.AutoSize = true;
-            this.Question1.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Question1.Location = new System.Drawing.Point(777, 262);
+            this.Question1.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Question1.Location = new System.Drawing.Point(3, 3);
             this.Question1.Name = "Question1";
-            this.Question1.Size = new System.Drawing.Size(176, 38);
+            this.Question1.Size = new System.Drawing.Size(229, 19);
             this.Question1.TabIndex = 16;
-            this.Question1.Text = "Segmentaition quality \r\noverall";
+            this.Question1.Text = "Segmentaition quality overall";
             // 
             // Question2
             // 
+            this.Question2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.Question2.AutoSize = true;
-            this.Question2.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Question2.Location = new System.Drawing.Point(1068, 262);
+            this.Question2.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Question2.Location = new System.Drawing.Point(3, 3);
             this.Question2.Name = "Question2";
-            this.Question2.Size = new System.Drawing.Size(170, 38);
+            this.Question2.Size = new System.Drawing.Size(252, 19);
             this.Question2.TabIndex = 17;
-            this.Question2.Text = "Segmentation quality \r\nintra-canal";
+            this.Question2.Text = "Segmentation quality intra-canal";
             // 
             // Question3
             // 
+            this.Question3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.Question3.AutoSize = true;
-            this.Question3.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Question3.Location = new System.Drawing.Point(777, 487);
+            this.Question3.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Question3.Location = new System.Drawing.Point(3, 3);
             this.Question3.Name = "Question3";
-            this.Question3.Size = new System.Drawing.Size(170, 38);
+            this.Question3.Size = new System.Drawing.Size(253, 19);
             this.Question3.TabIndex = 18;
-            this.Question3.Text = "Segmentation quality \r\nextra-canal";
+            this.Question3.Text = "Segmentation quality extra-canal";
             // 
             // Q1R1
             // 
             this.Q1R1.AutoSize = true;
-            this.Q1R1.Location = new System.Drawing.Point(5, 20);
+            this.Q1R1.Location = new System.Drawing.Point(4, 18);
             this.Q1R1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q1R1.Name = "Q1R1";
             this.Q1R1.Size = new System.Drawing.Size(122, 21);
@@ -352,23 +394,25 @@
             // 
             // Q1Box
             // 
+            this.Q1Box.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Q1Box.Controls.Add(this.Q1R1);
             this.Q1Box.Controls.Add(this.Q1R2);
             this.Q1Box.Controls.Add(this.Q1R3);
             this.Q1Box.Controls.Add(this.Q1C1);
             this.Q1Box.Controls.Add(this.Q1C2);
-            this.Q1Box.Location = new System.Drawing.Point(771, 313);
+            this.Q1Box.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Q1Box.Location = new System.Drawing.Point(3, 29);
             this.Q1Box.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q1Box.Name = "Q1Box";
             this.Q1Box.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Q1Box.Size = new System.Drawing.Size(292, 145);
+            this.Q1Box.Size = new System.Drawing.Size(275, 121);
             this.Q1Box.TabIndex = 20;
             this.Q1Box.TabStop = false;
             // 
             // Q1R2
             // 
             this.Q1R2.AutoSize = true;
-            this.Q1R2.Location = new System.Drawing.Point(5, 47);
+            this.Q1R2.Location = new System.Drawing.Point(4, 49);
             this.Q1R2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q1R2.Name = "Q1R2";
             this.Q1R2.Size = new System.Drawing.Size(122, 21);
@@ -380,7 +424,7 @@
             // Q1R3
             // 
             this.Q1R3.AutoSize = true;
-            this.Q1R3.Location = new System.Drawing.Point(5, 74);
+            this.Q1R3.Location = new System.Drawing.Point(4, 79);
             this.Q1R3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q1R3.Name = "Q1R3";
             this.Q1R3.Size = new System.Drawing.Size(155, 21);
@@ -392,7 +436,7 @@
             // Q1C1
             // 
             this.Q1C1.AutoSize = true;
-            this.Q1C1.Location = new System.Drawing.Point(4, 113);
+            this.Q1C1.Location = new System.Drawing.Point(161, 36);
             this.Q1C1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Q1C1.Name = "Q1C1";
             this.Q1C1.Size = new System.Drawing.Size(114, 21);
@@ -403,7 +447,7 @@
             // Q1C2
             // 
             this.Q1C2.AutoSize = true;
-            this.Q1C2.Location = new System.Drawing.Point(141, 113);
+            this.Q1C2.Location = new System.Drawing.Point(161, 60);
             this.Q1C2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Q1C2.Name = "Q1C2";
             this.Q1C2.Size = new System.Drawing.Size(114, 21);
@@ -413,23 +457,25 @@
             // 
             // Q3Box
             // 
+            this.Q3Box.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Q3Box.Controls.Add(this.Q3R1);
             this.Q3Box.Controls.Add(this.Q3R2);
             this.Q3Box.Controls.Add(this.Q3R3);
             this.Q3Box.Controls.Add(this.Q3C1);
             this.Q3Box.Controls.Add(this.Q3C2);
-            this.Q3Box.Location = new System.Drawing.Point(771, 540);
+            this.Q3Box.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Q3Box.Location = new System.Drawing.Point(3, 29);
             this.Q3Box.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q3Box.Name = "Q3Box";
             this.Q3Box.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Q3Box.Size = new System.Drawing.Size(292, 142);
+            this.Q3Box.Size = new System.Drawing.Size(275, 123);
             this.Q3Box.TabIndex = 21;
             this.Q3Box.TabStop = false;
             // 
             // Q3R1
             // 
             this.Q3R1.AutoSize = true;
-            this.Q3R1.Location = new System.Drawing.Point(5, 20);
+            this.Q3R1.Location = new System.Drawing.Point(5, 21);
             this.Q3R1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q3R1.Name = "Q3R1";
             this.Q3R1.Size = new System.Drawing.Size(122, 21);
@@ -441,7 +487,7 @@
             // Q3R2
             // 
             this.Q3R2.AutoSize = true;
-            this.Q3R2.Location = new System.Drawing.Point(5, 47);
+            this.Q3R2.Location = new System.Drawing.Point(5, 51);
             this.Q3R2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q3R2.Name = "Q3R2";
             this.Q3R2.Size = new System.Drawing.Size(122, 21);
@@ -453,7 +499,7 @@
             // Q3R3
             // 
             this.Q3R3.AutoSize = true;
-            this.Q3R3.Location = new System.Drawing.Point(4, 78);
+            this.Q3R3.Location = new System.Drawing.Point(5, 79);
             this.Q3R3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q3R3.Name = "Q3R3";
             this.Q3R3.Size = new System.Drawing.Size(155, 21);
@@ -465,7 +511,7 @@
             // Q3C1
             // 
             this.Q3C1.AutoSize = true;
-            this.Q3C1.Location = new System.Drawing.Point(4, 107);
+            this.Q3C1.Location = new System.Drawing.Point(161, 34);
             this.Q3C1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Q3C1.Name = "Q3C1";
             this.Q3C1.Size = new System.Drawing.Size(114, 21);
@@ -476,7 +522,7 @@
             // Q3C2
             // 
             this.Q3C2.AutoSize = true;
-            this.Q3C2.Location = new System.Drawing.Point(141, 108);
+            this.Q3C2.Location = new System.Drawing.Point(161, 60);
             this.Q3C2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Q3C2.Name = "Q3C2";
             this.Q3C2.Size = new System.Drawing.Size(114, 21);
@@ -486,23 +532,25 @@
             // 
             // Q2Box
             // 
+            this.Q2Box.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Q2Box.Controls.Add(this.Q2R1);
             this.Q2Box.Controls.Add(this.Q2R2);
             this.Q2Box.Controls.Add(this.Q2R3);
             this.Q2Box.Controls.Add(this.Q2C1);
             this.Q2Box.Controls.Add(this.Q2C2);
-            this.Q2Box.Location = new System.Drawing.Point(1068, 313);
+            this.Q2Box.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Q2Box.Location = new System.Drawing.Point(3, 29);
             this.Q2Box.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q2Box.Name = "Q2Box";
             this.Q2Box.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Q2Box.Size = new System.Drawing.Size(277, 145);
+            this.Q2Box.Size = new System.Drawing.Size(275, 124);
             this.Q2Box.TabIndex = 22;
             this.Q2Box.TabStop = false;
             // 
             // Q2R1
             // 
             this.Q2R1.AutoSize = true;
-            this.Q2R1.Location = new System.Drawing.Point(5, 20);
+            this.Q2R1.Location = new System.Drawing.Point(4, 22);
             this.Q2R1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q2R1.Name = "Q2R1";
             this.Q2R1.Size = new System.Drawing.Size(122, 21);
@@ -514,7 +562,7 @@
             // Q2R2
             // 
             this.Q2R2.AutoSize = true;
-            this.Q2R2.Location = new System.Drawing.Point(5, 47);
+            this.Q2R2.Location = new System.Drawing.Point(4, 50);
             this.Q2R2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q2R2.Name = "Q2R2";
             this.Q2R2.Size = new System.Drawing.Size(122, 21);
@@ -526,19 +574,19 @@
             // Q2R3
             // 
             this.Q2R3.AutoSize = true;
-            this.Q2R3.Location = new System.Drawing.Point(5, 74);
+            this.Q2R3.Location = new System.Drawing.Point(4, 78);
             this.Q2R3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Q2R3.Name = "Q2R3";
-            this.Q2R3.Size = new System.Drawing.Size(144, 21);
+            this.Q2R3.Size = new System.Drawing.Size(155, 21);
             this.Q2R3.TabIndex = 21;
             this.Q2R3.TabStop = true;
-            this.Q2R3.Text = "1 and 2 coparable";
+            this.Q2R3.Text = "1 and 2 comparable";
             this.Q2R3.UseVisualStyleBackColor = true;
             // 
             // Q2C1
             // 
             this.Q2C1.AutoSize = true;
-            this.Q2C1.Location = new System.Drawing.Point(1, 113);
+            this.Q2C1.Location = new System.Drawing.Point(161, 37);
             this.Q2C1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Q2C1.Name = "Q2C1";
             this.Q2C1.Size = new System.Drawing.Size(114, 21);
@@ -549,7 +597,7 @@
             // Q2C2
             // 
             this.Q2C2.AutoSize = true;
-            this.Q2C2.Location = new System.Drawing.Point(139, 113);
+            this.Q2C2.Location = new System.Drawing.Point(161, 62);
             this.Q2C2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Q2C2.Name = "Q2C2";
             this.Q2C2.Size = new System.Drawing.Size(114, 21);
@@ -559,224 +607,415 @@
             // 
             // PreviousButton
             // 
-            this.PreviousButton.Location = new System.Drawing.Point(1092, 559);
+            this.PreviousButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.PreviousButton.Location = new System.Drawing.Point(23, 5);
             this.PreviousButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.PreviousButton.Name = "PreviousButton";
-            this.PreviousButton.Size = new System.Drawing.Size(87, 25);
+            this.PreviousButton.Size = new System.Drawing.Size(90, 25);
             this.PreviousButton.TabIndex = 23;
             this.PreviousButton.Text = "Previous";
             this.PreviousButton.UseVisualStyleBackColor = true;
             // 
             // NextButton
             // 
-            this.NextButton.Location = new System.Drawing.Point(1236, 559);
+            this.NextButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.NextButton.Location = new System.Drawing.Point(161, 5);
             this.NextButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.NextButton.Name = "NextButton";
-            this.NextButton.Size = new System.Drawing.Size(87, 25);
+            this.NextButton.Size = new System.Drawing.Size(90, 25);
             this.NextButton.TabIndex = 24;
             this.NextButton.Text = "Next";
             this.NextButton.UseVisualStyleBackColor = true;
             // 
-            // ContrastReset
-            // 
-            this.ContrastReset.Location = new System.Drawing.Point(969, 106);
-            this.ContrastReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ContrastReset.Name = "ContrastReset";
-            this.ContrastReset.Size = new System.Drawing.Size(75, 25);
-            this.ContrastReset.TabIndex = 25;
-            this.ContrastReset.Text = "Reset";
-            this.ContrastReset.UseVisualStyleBackColor = true;
-            this.ContrastReset.Click += new System.EventHandler(this.ContrastReset_Click);
-            // 
             // ContrastScrollbar
             // 
             this.ContrastScrollbar.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ContrastScrollbar.Location = new System.Drawing.Point(771, 73);
+            this.ContrastScrollbar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContrastScrollbar.Location = new System.Drawing.Point(0, 37);
             this.ContrastScrollbar.Maximum = 108;
             this.ContrastScrollbar.Name = "ContrastScrollbar";
             this.ContrastScrollbar.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ContrastScrollbar.Size = new System.Drawing.Size(273, 24);
+            this.ContrastScrollbar.Size = new System.Drawing.Size(281, 19);
             this.ContrastScrollbar.TabIndex = 26;
             this.ContrastScrollbar.Value = 50;
             this.ContrastScrollbar.ValueChanged += new System.EventHandler(this.Contrast_ValueChanged);
             // 
             // ContrastLabel
             // 
+            this.ContrastLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ContrastLabel.AutoSize = true;
-            this.ContrastLabel.Location = new System.Drawing.Point(769, 33);
+            this.ContrastLabel.Location = new System.Drawing.Point(3, 7);
             this.ContrastLabel.Name = "ContrastLabel";
-            this.ContrastLabel.Size = new System.Drawing.Size(61, 17);
+            this.ContrastLabel.Size = new System.Drawing.Size(85, 17);
             this.ContrastLabel.TabIndex = 27;
-            this.ContrastLabel.Text = "Contrast";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1115, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 17);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "Brightness";
+            this.ContrastLabel.Text = "Contrast: 50";
             // 
             // BrightnessScrollbar
             // 
             this.BrightnessScrollbar.Cursor = System.Windows.Forms.Cursors.Default;
-            this.BrightnessScrollbar.Location = new System.Drawing.Point(1075, 73);
+            this.BrightnessScrollbar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BrightnessScrollbar.Location = new System.Drawing.Point(0, 37);
             this.BrightnessScrollbar.Maximum = 108;
             this.BrightnessScrollbar.Name = "BrightnessScrollbar";
             this.BrightnessScrollbar.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BrightnessScrollbar.Size = new System.Drawing.Size(273, 24);
+            this.BrightnessScrollbar.Size = new System.Drawing.Size(281, 19);
             this.BrightnessScrollbar.TabIndex = 29;
             this.BrightnessScrollbar.Value = 50;
             this.BrightnessScrollbar.ValueChanged += new System.EventHandler(this.Brightness_ValueChanged);
-            // 
-            // BrightnessReset
-            // 
-            this.BrightnessReset.Location = new System.Drawing.Point(1276, 106);
-            this.BrightnessReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.BrightnessReset.Name = "BrightnessReset";
-            this.BrightnessReset.Size = new System.Drawing.Size(75, 25);
-            this.BrightnessReset.TabIndex = 30;
-            this.BrightnessReset.Text = "Reset";
-            this.BrightnessReset.UseVisualStyleBackColor = true;
-            this.BrightnessReset.Click += new System.EventHandler(this.BrightnessReset_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(773, 146);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 17);
-            this.label2.TabIndex = 33;
-            this.label2.Text = "Backup1";
-            // 
-            // hScrollBar2
-            // 
-            this.hScrollBar2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.hScrollBar2.Location = new System.Drawing.Point(753, 186);
-            this.hScrollBar2.Name = "hScrollBar2";
-            this.hScrollBar2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.hScrollBar2.Size = new System.Drawing.Size(291, 24);
-            this.hScrollBar2.TabIndex = 32;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(969, 219);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 25);
-            this.button3.TabIndex = 31;
-            this.button3.Text = "Reset";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1089, 146);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 17);
-            this.label3.TabIndex = 36;
-            this.label3.Text = "Backup2";
-            // 
-            // hScrollBar3
-            // 
-            this.hScrollBar3.Cursor = System.Windows.Forms.Cursors.Default;
-            this.hScrollBar3.Location = new System.Drawing.Point(1073, 186);
-            this.hScrollBar3.Name = "hScrollBar3";
-            this.hScrollBar3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.hScrollBar3.Size = new System.Drawing.Size(276, 24);
-            this.hScrollBar3.TabIndex = 35;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(1273, 224);
-            this.button4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 25);
-            this.button4.TabIndex = 34;
-            this.button4.Text = "Reset";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // ContrastMonitor
-            // 
-            this.ContrastMonitor.AutoSize = true;
-            this.ContrastMonitor.Location = new System.Drawing.Point(944, 52);
-            this.ContrastMonitor.Name = "ContrastMonitor";
-            this.ContrastMonitor.Size = new System.Drawing.Size(24, 17);
-            this.ContrastMonitor.TabIndex = 37;
-            this.ContrastMonitor.Text = "50";
-            // 
-            // BrightnessMonitor
-            // 
-            this.BrightnessMonitor.AutoSize = true;
-            this.BrightnessMonitor.Location = new System.Drawing.Point(1261, 52);
-            this.BrightnessMonitor.Name = "BrightnessMonitor";
-            this.BrightnessMonitor.Size = new System.Drawing.Size(24, 17);
-            this.BrightnessMonitor.TabIndex = 38;
-            this.BrightnessMonitor.Text = "50";
             // 
             // synCheck
             // 
             this.synCheck.AutoSize = true;
             this.synCheck.Checked = true;
             this.synCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.synCheck.Location = new System.Drawing.Point(24, 696);
+            this.synCheck.Location = new System.Drawing.Point(3, 692);
+            this.synCheck.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.synCheck.Name = "synCheck";
             this.synCheck.Size = new System.Drawing.Size(117, 21);
             this.synCheck.TabIndex = 39;
             this.synCheck.Text = "Sync scrolling";
             this.synCheck.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // PicboxLayoutPanel
+            // 
+            this.PicboxLayoutPanel.ColumnCount = 2;
+            this.PicboxLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PicboxLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PicboxLayoutPanel.Controls.Add(this.A2ScrollLayoutPanel, 1, 3);
+            this.PicboxLayoutPanel.Controls.Add(this.A1ScrollLayoutPanel, 0, 3);
+            this.PicboxLayoutPanel.Controls.Add(this.T2ScrollLayoutPanel, 1, 1);
+            this.PicboxLayoutPanel.Controls.Add(this.T1ScrollLayoutPanel, 0, 1);
+            this.PicboxLayoutPanel.Controls.Add(this.OriT1, 0, 0);
+            this.PicboxLayoutPanel.Controls.Add(this.synCheck, 0, 4);
+            this.PicboxLayoutPanel.Controls.Add(this.Annotation1, 0, 2);
+            this.PicboxLayoutPanel.Controls.Add(this.Annotation2, 1, 2);
+            this.PicboxLayoutPanel.Controls.Add(this.OriT2, 1, 0);
+            this.PicboxLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PicboxLayoutPanel.Location = new System.Drawing.Point(3, 2);
+            this.PicboxLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PicboxLayoutPanel.Name = "PicboxLayoutPanel";
+            this.PicboxLayoutPanel.RowCount = 5;
+            this.PicboxLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PicboxLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.PicboxLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PicboxLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.PicboxLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.PicboxLayoutPanel.Size = new System.Drawing.Size(883, 721);
+            this.PicboxLayoutPanel.TabIndex = 40;
+            // 
+            // A2ScrollLayoutPanel
+            // 
+            this.A2ScrollLayoutPanel.ColumnCount = 2;
+            this.A2ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.A2ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.A2ScrollLayoutPanel.Controls.Add(this.Annot2ScrollBar, 0, 0);
+            this.A2ScrollLayoutPanel.Controls.Add(this.Annot2Index, 1, 0);
+            this.A2ScrollLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.A2ScrollLayoutPanel.Location = new System.Drawing.Point(444, 662);
+            this.A2ScrollLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.A2ScrollLayoutPanel.Name = "A2ScrollLayoutPanel";
+            this.A2ScrollLayoutPanel.RowCount = 1;
+            this.A2ScrollLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.A2ScrollLayoutPanel.Size = new System.Drawing.Size(436, 26);
+            this.A2ScrollLayoutPanel.TabIndex = 42;
+            // 
+            // A1ScrollLayoutPanel
+            // 
+            this.A1ScrollLayoutPanel.ColumnCount = 2;
+            this.A1ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.A1ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.A1ScrollLayoutPanel.Controls.Add(this.Annot1ScrollBar, 0, 0);
+            this.A1ScrollLayoutPanel.Controls.Add(this.Annot1Index, 1, 0);
+            this.A1ScrollLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.A1ScrollLayoutPanel.Location = new System.Drawing.Point(3, 662);
+            this.A1ScrollLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.A1ScrollLayoutPanel.Name = "A1ScrollLayoutPanel";
+            this.A1ScrollLayoutPanel.RowCount = 1;
+            this.A1ScrollLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.A1ScrollLayoutPanel.Size = new System.Drawing.Size(435, 26);
+            this.A1ScrollLayoutPanel.TabIndex = 42;
+            // 
+            // T2ScrollLayoutPanel
+            // 
+            this.T2ScrollLayoutPanel.ColumnCount = 2;
+            this.T2ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.T2ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.T2ScrollLayoutPanel.Controls.Add(this.T2ScrollBar, 0, 0);
+            this.T2ScrollLayoutPanel.Controls.Add(this.T2Index, 1, 0);
+            this.T2ScrollLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.T2ScrollLayoutPanel.Location = new System.Drawing.Point(444, 317);
+            this.T2ScrollLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.T2ScrollLayoutPanel.Name = "T2ScrollLayoutPanel";
+            this.T2ScrollLayoutPanel.RowCount = 1;
+            this.T2ScrollLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.T2ScrollLayoutPanel.Size = new System.Drawing.Size(436, 26);
+            this.T2ScrollLayoutPanel.TabIndex = 42;
+            // 
+            // T1ScrollLayoutPanel
+            // 
+            this.T1ScrollLayoutPanel.ColumnCount = 2;
+            this.T1ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.T1ScrollLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.T1ScrollLayoutPanel.Controls.Add(this.T1ScrollBar, 0, 0);
+            this.T1ScrollLayoutPanel.Controls.Add(this.T1Index, 1, 0);
+            this.T1ScrollLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.T1ScrollLayoutPanel.Location = new System.Drawing.Point(3, 317);
+            this.T1ScrollLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.T1ScrollLayoutPanel.Name = "T1ScrollLayoutPanel";
+            this.T1ScrollLayoutPanel.RowCount = 1;
+            this.T1ScrollLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.T1ScrollLayoutPanel.Size = new System.Drawing.Size(435, 26);
+            this.T1ScrollLayoutPanel.TabIndex = 42;
+            // 
+            // mainLayoutPanel
+            // 
+            this.mainLayoutPanel.ColumnCount = 2;
+            this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 293F));
+            this.mainLayoutPanel.Controls.Add(this.PicboxLayoutPanel, 0, 0);
+            this.mainLayoutPanel.Controls.Add(this.CommandLayoutPanel, 1, 0);
+            this.mainLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainLayoutPanel.Location = new System.Drawing.Point(0, 28);
+            this.mainLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mainLayoutPanel.Name = "mainLayoutPanel";
+            this.mainLayoutPanel.RowCount = 1;
+            this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayoutPanel.Size = new System.Drawing.Size(1182, 725);
+            this.mainLayoutPanel.TabIndex = 41;
+            // 
+            // CommandLayoutPanel
+            // 
+            this.CommandLayoutPanel.ColumnCount = 1;
+            this.CommandLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.CommandLayoutPanel.Controls.Add(this.buttonLayoutPanel, 0, 5);
+            this.CommandLayoutPanel.Controls.Add(this.q3LayoutPanel, 0, 4);
+            this.CommandLayoutPanel.Controls.Add(this.q2LayoutPanel, 0, 3);
+            this.CommandLayoutPanel.Controls.Add(this.q1LayoutPanel, 0, 2);
+            this.CommandLayoutPanel.Controls.Add(this.contrastLayoutPanel, 0, 1);
+            this.CommandLayoutPanel.Controls.Add(this.brightnessLayoutPanel, 0, 0);
+            this.CommandLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CommandLayoutPanel.Location = new System.Drawing.Point(892, 2);
+            this.CommandLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CommandLayoutPanel.Name = "CommandLayoutPanel";
+            this.CommandLayoutPanel.RowCount = 6;
+            this.CommandLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.CommandLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.CommandLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CommandLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CommandLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CommandLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CommandLayoutPanel.Size = new System.Drawing.Size(287, 721);
+            this.CommandLayoutPanel.TabIndex = 42;
+            // 
+            // buttonLayoutPanel
+            // 
+            this.buttonLayoutPanel.ColumnCount = 1;
+            this.buttonLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.buttonLayoutPanel.Controls.Add(this.confirmButtonLayoutPanel, 0, 1);
+            this.buttonLayoutPanel.Controls.Add(this.selectButtonLayoutPanel, 0, 0);
+            this.buttonLayoutPanel.Controls.Add(this.saveInfoDisplay, 0, 2);
+            this.buttonLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonLayoutPanel.Location = new System.Drawing.Point(3, 601);
+            this.buttonLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonLayoutPanel.Name = "buttonLayoutPanel";
+            this.buttonLayoutPanel.RowCount = 3;
+            this.buttonLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.buttonLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.buttonLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.buttonLayoutPanel.Size = new System.Drawing.Size(281, 118);
+            this.buttonLayoutPanel.TabIndex = 42;
+            // 
+            // confirmButtonLayoutPanel
+            // 
+            this.confirmButtonLayoutPanel.ColumnCount = 2;
+            this.confirmButtonLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.confirmButtonLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.confirmButtonLayoutPanel.Controls.Add(this.ClearButton, 0, 0);
+            this.confirmButtonLayoutPanel.Controls.Add(this.ConfirmButton, 1, 0);
+            this.confirmButtonLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.confirmButtonLayoutPanel.Location = new System.Drawing.Point(3, 42);
+            this.confirmButtonLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.confirmButtonLayoutPanel.Name = "confirmButtonLayoutPanel";
+            this.confirmButtonLayoutPanel.RowCount = 1;
+            this.confirmButtonLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.confirmButtonLayoutPanel.Size = new System.Drawing.Size(275, 36);
+            this.confirmButtonLayoutPanel.TabIndex = 43;
+            // 
+            // selectButtonLayoutPanel
+            // 
+            this.selectButtonLayoutPanel.ColumnCount = 2;
+            this.selectButtonLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.selectButtonLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.selectButtonLayoutPanel.Controls.Add(this.PreviousButton, 0, 0);
+            this.selectButtonLayoutPanel.Controls.Add(this.NextButton, 1, 0);
+            this.selectButtonLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectButtonLayoutPanel.Location = new System.Drawing.Point(3, 2);
+            this.selectButtonLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.selectButtonLayoutPanel.Name = "selectButtonLayoutPanel";
+            this.selectButtonLayoutPanel.RowCount = 1;
+            this.selectButtonLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.selectButtonLayoutPanel.Size = new System.Drawing.Size(275, 36);
+            this.selectButtonLayoutPanel.TabIndex = 43;
+            // 
+            // q3LayoutPanel
+            // 
+            this.q3LayoutPanel.BackColor = System.Drawing.Color.Silver;
+            this.q3LayoutPanel.ColumnCount = 1;
+            this.q3LayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.q3LayoutPanel.Controls.Add(this.Question3, 0, 0);
+            this.q3LayoutPanel.Controls.Add(this.Q3Box, 0, 1);
+            this.q3LayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.q3LayoutPanel.Location = new System.Drawing.Point(3, 441);
+            this.q3LayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.q3LayoutPanel.Name = "q3LayoutPanel";
+            this.q3LayoutPanel.RowCount = 2;
+            this.q3LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.q3LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.q3LayoutPanel.Size = new System.Drawing.Size(281, 156);
+            this.q3LayoutPanel.TabIndex = 42;
+            // 
+            // q2LayoutPanel
+            // 
+            this.q2LayoutPanel.BackColor = System.Drawing.Color.Silver;
+            this.q2LayoutPanel.ColumnCount = 1;
+            this.q2LayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.q2LayoutPanel.Controls.Add(this.Q2Box, 0, 1);
+            this.q2LayoutPanel.Controls.Add(this.Question2, 0, 0);
+            this.q2LayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.q2LayoutPanel.Location = new System.Drawing.Point(3, 280);
+            this.q2LayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.q2LayoutPanel.Name = "q2LayoutPanel";
+            this.q2LayoutPanel.RowCount = 2;
+            this.q2LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.q2LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.q2LayoutPanel.Size = new System.Drawing.Size(281, 157);
+            this.q2LayoutPanel.TabIndex = 42;
+            // 
+            // q1LayoutPanel
+            // 
+            this.q1LayoutPanel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.q1LayoutPanel.BackColor = System.Drawing.Color.Silver;
+            this.q1LayoutPanel.ColumnCount = 1;
+            this.q1LayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.q1LayoutPanel.Controls.Add(this.Question1, 0, 0);
+            this.q1LayoutPanel.Controls.Add(this.Q1Box, 0, 1);
+            this.q1LayoutPanel.Location = new System.Drawing.Point(3, 122);
+            this.q1LayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.q1LayoutPanel.Name = "q1LayoutPanel";
+            this.q1LayoutPanel.RowCount = 2;
+            this.q1LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.q1LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.q1LayoutPanel.Size = new System.Drawing.Size(281, 154);
+            this.q1LayoutPanel.TabIndex = 42;
+            // 
+            // contrastLayoutPanel
+            // 
+            this.contrastLayoutPanel.ColumnCount = 1;
+            this.contrastLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.contrastLayoutPanel.Controls.Add(this.contrastLabelLayoutPanel, 0, 0);
+            this.contrastLayoutPanel.Controls.Add(this.ContrastScrollbar, 0, 1);
+            this.contrastLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contrastLayoutPanel.Location = new System.Drawing.Point(3, 62);
+            this.contrastLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.contrastLayoutPanel.Name = "contrastLayoutPanel";
+            this.contrastLayoutPanel.RowCount = 2;
+            this.contrastLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.contrastLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.contrastLayoutPanel.Size = new System.Drawing.Size(281, 56);
+            this.contrastLayoutPanel.TabIndex = 42;
+            // 
+            // contrastLabelLayoutPanel
+            // 
+            this.contrastLabelLayoutPanel.ColumnCount = 2;
+            this.contrastLabelLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.contrastLabelLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.contrastLabelLayoutPanel.Controls.Add(this.ContrastReset, 0, 0);
+            this.contrastLabelLayoutPanel.Controls.Add(this.ContrastLabel, 0, 0);
+            this.contrastLabelLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contrastLabelLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.contrastLabelLayoutPanel.Name = "contrastLabelLayoutPanel";
+            this.contrastLabelLayoutPanel.RowCount = 1;
+            this.contrastLabelLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.contrastLabelLayoutPanel.Size = new System.Drawing.Size(275, 31);
+            this.contrastLabelLayoutPanel.TabIndex = 42;
+            // 
+            // ContrastReset
+            // 
+            this.ContrastReset.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ContrastReset.Location = new System.Drawing.Point(197, 4);
+            this.ContrastReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ContrastReset.Name = "ContrastReset";
+            this.ContrastReset.Size = new System.Drawing.Size(75, 23);
+            this.ContrastReset.TabIndex = 31;
+            this.ContrastReset.Text = "Reset";
+            this.ContrastReset.UseVisualStyleBackColor = true;
+            this.ContrastReset.Click += new System.EventHandler(this.ContrastReset_Click);
+            // 
+            // brightnessLayoutPanel
+            // 
+            this.brightnessLayoutPanel.ColumnCount = 1;
+            this.brightnessLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.brightnessLayoutPanel.Controls.Add(this.BrightnessScrollbar, 0, 1);
+            this.brightnessLayoutPanel.Controls.Add(this.brightnessLableLayoutPanel, 0, 0);
+            this.brightnessLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.brightnessLayoutPanel.Location = new System.Drawing.Point(3, 2);
+            this.brightnessLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.brightnessLayoutPanel.Name = "brightnessLayoutPanel";
+            this.brightnessLayoutPanel.RowCount = 2;
+            this.brightnessLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.brightnessLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.brightnessLayoutPanel.Size = new System.Drawing.Size(281, 56);
+            this.brightnessLayoutPanel.TabIndex = 42;
+            // 
+            // brightnessLableLayoutPanel
+            // 
+            this.brightnessLableLayoutPanel.ColumnCount = 2;
+            this.brightnessLableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.brightnessLableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.brightnessLableLayoutPanel.Controls.Add(this.brightnessLabel, 0, 0);
+            this.brightnessLableLayoutPanel.Controls.Add(this.BrightnessReset, 1, 0);
+            this.brightnessLableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.brightnessLableLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.brightnessLableLayoutPanel.Name = "brightnessLableLayoutPanel";
+            this.brightnessLableLayoutPanel.RowCount = 1;
+            this.brightnessLableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.brightnessLableLayoutPanel.Size = new System.Drawing.Size(275, 31);
+            this.brightnessLableLayoutPanel.TabIndex = 42;
+            // 
+            // brightnessLabel
+            // 
+            this.brightnessLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.brightnessLabel.AutoSize = true;
+            this.brightnessLabel.Location = new System.Drawing.Point(3, 7);
+            this.brightnessLabel.Name = "brightnessLabel";
+            this.brightnessLabel.Size = new System.Drawing.Size(99, 17);
+            this.brightnessLabel.TabIndex = 28;
+            this.brightnessLabel.Text = "Brightness: 50";
+            // 
+            // BrightnessReset
+            // 
+            this.BrightnessReset.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.BrightnessReset.Location = new System.Drawing.Point(197, 4);
+            this.BrightnessReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.BrightnessReset.Name = "BrightnessReset";
+            this.BrightnessReset.Size = new System.Drawing.Size(75, 23);
+            this.BrightnessReset.TabIndex = 30;
+            this.BrightnessReset.Text = "Reset";
+            this.BrightnessReset.UseVisualStyleBackColor = true;
+            this.BrightnessReset.Click += new System.EventHandler(this.BrightnessReset_Click);
+            // 
+            // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1360, 729);
-            this.Controls.Add(this.synCheck);
-            this.Controls.Add(this.Q3Box);
-            this.Controls.Add(this.Q2Box);
-            this.Controls.Add(this.Q1Box);
-            this.Controls.Add(this.BrightnessMonitor);
-            this.Controls.Add(this.ContrastMonitor);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.hScrollBar3);
-            this.Controls.Add(this.Question1);
-            this.Controls.Add(this.Question2);
-            this.Controls.Add(this.Question3);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.hScrollBar2);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.BrightnessReset);
-            this.Controls.Add(this.BrightnessScrollbar);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.ContrastLabel);
-            this.Controls.Add(this.ContrastScrollbar);
-            this.Controls.Add(this.ContrastReset);
-            this.Controls.Add(this.NextButton);
-            this.Controls.Add(this.PreviousButton);
-            this.Controls.Add(this.saveInfoDisplay);
-            this.Controls.Add(this.ConfirmButton);
-            this.Controls.Add(this.ClearButton);
-            this.Controls.Add(this.Annot2Index);
-            this.Controls.Add(this.Annot1Index);
-            this.Controls.Add(this.T2Index);
-            this.Controls.Add(this.T1Index);
-            this.Controls.Add(this.OriT2);
-            this.Controls.Add(this.Annotation2);
-            this.Controls.Add(this.OriT1);
-            this.Controls.Add(this.Annotation1);
-            this.Controls.Add(this.T2ScrollBar);
-            this.Controls.Add(this.T1ScrollBar);
-            this.Controls.Add(this.Annot2ScrollBar);
-            this.Controls.Add(this.Annot1ScrollBar);
+            this.ClientSize = new System.Drawing.Size(1182, 753);
+            this.Controls.Add(this.mainLayoutPanel);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.MinimumSize = new System.Drawing.Size(1200, 800);
+            this.Name = "mainForm";
             this.Text = "SegViewer";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -790,6 +1029,30 @@
             this.Q3Box.PerformLayout();
             this.Q2Box.ResumeLayout(false);
             this.Q2Box.PerformLayout();
+            this.PicboxLayoutPanel.ResumeLayout(false);
+            this.PicboxLayoutPanel.PerformLayout();
+            this.A2ScrollLayoutPanel.ResumeLayout(false);
+            this.A1ScrollLayoutPanel.ResumeLayout(false);
+            this.T2ScrollLayoutPanel.ResumeLayout(false);
+            this.T1ScrollLayoutPanel.ResumeLayout(false);
+            this.mainLayoutPanel.ResumeLayout(false);
+            this.CommandLayoutPanel.ResumeLayout(false);
+            this.buttonLayoutPanel.ResumeLayout(false);
+            this.buttonLayoutPanel.PerformLayout();
+            this.confirmButtonLayoutPanel.ResumeLayout(false);
+            this.selectButtonLayoutPanel.ResumeLayout(false);
+            this.q3LayoutPanel.ResumeLayout(false);
+            this.q3LayoutPanel.PerformLayout();
+            this.q2LayoutPanel.ResumeLayout(false);
+            this.q2LayoutPanel.PerformLayout();
+            this.q1LayoutPanel.ResumeLayout(false);
+            this.q1LayoutPanel.PerformLayout();
+            this.contrastLayoutPanel.ResumeLayout(false);
+            this.contrastLabelLayoutPanel.ResumeLayout(false);
+            this.contrastLabelLayoutPanel.PerformLayout();
+            this.brightnessLayoutPanel.ResumeLayout(false);
+            this.brightnessLableLayoutPanel.ResumeLayout(false);
+            this.brightnessLableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -837,20 +1100,9 @@
         private System.Windows.Forms.RadioButton Q2R1;
         private System.Windows.Forms.Button PreviousButton;
         private System.Windows.Forms.Button NextButton;
-        private System.Windows.Forms.Button ContrastReset;
         private System.Windows.Forms.HScrollBar ContrastScrollbar;
         private System.Windows.Forms.Label ContrastLabel;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.HScrollBar BrightnessScrollbar;
-        private System.Windows.Forms.Button BrightnessReset;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.HScrollBar hScrollBar2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.HScrollBar hScrollBar3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label ContrastMonitor;
-        private System.Windows.Forms.Label BrightnessMonitor;
         private System.Windows.Forms.CheckBox Q1C1;
         private System.Windows.Forms.CheckBox Q1C2;
         private System.Windows.Forms.CheckBox Q2C1;
@@ -858,6 +1110,26 @@
         private System.Windows.Forms.CheckBox Q3C1;
         private System.Windows.Forms.CheckBox Q3C2;
         private System.Windows.Forms.CheckBox synCheck;
+        private System.Windows.Forms.TableLayoutPanel PicboxLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel mainLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel CommandLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel T1ScrollLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel T2ScrollLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel A1ScrollLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel A2ScrollLayoutPanel;
+        private System.Windows.Forms.Button BrightnessReset;
+        private System.Windows.Forms.TableLayoutPanel brightnessLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel contrastLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel q1LayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel buttonLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel confirmButtonLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel selectButtonLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel q3LayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel q2LayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel brightnessLableLayoutPanel;
+        private System.Windows.Forms.Label brightnessLabel;
+        private System.Windows.Forms.TableLayoutPanel contrastLabelLayoutPanel;
+        private System.Windows.Forms.Button ContrastReset;
     }
 }
 

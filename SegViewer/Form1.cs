@@ -16,7 +16,7 @@ using PixelId = itk.simple.PixelIDValueEnum;
 
 namespace SegViewer
 {
-    public partial class Form1 : Form
+    public partial class mainForm : Form
     {
         private Bitmap T1imageBMP;
         private Bitmap T2imageBMP;
@@ -52,7 +52,7 @@ namespace SegViewer
                             new float[] {0, 0, 0, 0, 1.0f}};
         float gamma = 1.0f;
 
-        public Form1()
+        public mainForm()
         {
             InitializeComponent();
         }
@@ -692,8 +692,8 @@ namespace SegViewer
                 g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT2.Image = T2AdjustedBmp;
             }
-            string indexText = string.Format("{0}", this.ContrastScrollbar.Value + 1);
-            this.ContrastMonitor.Text = indexText;
+            string indexText = string.Format("Contrast: {0}", this.ContrastScrollbar.Value + 1);
+            this.ContrastLabel.Text = indexText;
         }
 
         private void Brightness_ValueChanged(object sender, EventArgs e)
@@ -734,8 +734,8 @@ namespace SegViewer
                 g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
                 OriT2.Image = T2AdjustedBmp;
             }
-            string indexText = string.Format("{0}", this.BrightnessScrollbar.Value + 1);
-            this.BrightnessMonitor.Text = indexText;
+            string indexText = string.Format("Brightness: {0}", this.BrightnessScrollbar.Value + 1);
+            this.brightnessLabel.Text = indexText;
         }
 
         private void ContrastReset_Click(object sender, EventArgs e)
@@ -777,8 +777,8 @@ namespace SegViewer
                 OriT2.Image = T2AdjustedBmp;
             }
             this.ContrastScrollbar.Value = 49;
-            string indexText = string.Format("{0}", 50);
-            this.ContrastMonitor.Text = indexText;
+            string indexText = string.Format("Contrast: {0}", 50);
+            this.ContrastLabel.Text = indexText;
         }
 
         private void BrightnessReset_Click(object sender, EventArgs e)
@@ -820,8 +820,8 @@ namespace SegViewer
                 OriT2.Image = T2AdjustedBmp;
             }
             this.BrightnessScrollbar.Value = 49;
-            string indexText = string.Format("{0}", 50);
-            this.BrightnessMonitor.Text = indexText;
+            string indexText = string.Format("Brightness: {0}", 50);
+            this.brightnessLabel.Text = indexText;
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
