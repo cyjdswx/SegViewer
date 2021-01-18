@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using itk.simple;
+using OpenCvSharp;
 
 using PixelId = itk.simple.PixelIDValueEnum;
 
@@ -28,6 +29,8 @@ namespace SegViewer
         private Byte[] T2Buffer;
         private Byte[] Annot1Buffer;
         private Byte[] Annot2Buffer;
+        private Byte[] contour1Buffer;
+        private Byte[] contour2Buffer;
         private bool T1Flag = false;
         private bool T2Flag = false;
         private bool Annot1Flag = false;
@@ -83,10 +86,7 @@ namespace SegViewer
                     return;
                 }
                 var T1files = Directory.GetFiles(Path.Combine(rootPath, "T1WI"), "*.nii.gz");
-                //var T2files = Directory.GetFiles(T2Path, "*.nii.gz");
-                //var annot1files = Directory.GetFiles(annot1Path, "*.nii.gz");
-                //var annot2files = Directory.GetFiles(annot2Path, "*.nii.gz");
-                //patientList = new string[T1files.Length];
+
                 this.dataListView.Items.Clear();
                 List<string> tmpList = new List<string>();
                 for (int i = 0; i < T1files.Length; ++i)
@@ -226,7 +226,7 @@ namespace SegViewer
                 
             }
         }
-        private void T1Display(string rootPath, int index)
+        private void loadT1(string rootPath, int index)
         {
             T1_name = string.Concat(patientList[index], "_T1_0000.nii.gz");
             string T1ImagePath = Path.Combine(Path.Combine(rootPath, "T1WI"), T1_name);
@@ -277,14 +277,7 @@ namespace SegViewer
                     }
                 }
             }
-            /*
-            for (int i = 0; i < len; ++i)
-            {
-                T1Buffer[3 * i] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
-                T1Buffer[3 * i + 1] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
-                T1Buffer[3 * i + 2] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
-            }
-            */
+
             //display orignal image
             T1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
             var BoundsRect = new Rectangle(0, 0, T1Width, T1Height);
@@ -326,37 +319,11 @@ namespace SegViewer
             Annot1Flag = false;
             Annot2Flag = false;
 
-            //Display image for annotation1
-            Annot1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-            //Annot1AdjustedBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-            DiaplayImage(T1Width, T1Height, 0, T1Buffer, ref Annot1imageBMP, ref Annotation1);
-
-            //Display image for annotation2
-            Annot2imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-            //Annot2AdjustedBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-            DiaplayImage(T1Width, T1Height, 0, T1Buffer, ref Annot2imageBMP, ref Annotation2);
-
             this.saveInfoDisplay.ForeColor = System.Drawing.Color.Green;
             this.saveInfoDisplay.Text = "Ready to write";
-            //this.T1ScrollBar.Value = 0;
-
-            // setScrollbar range
-            this.T1ScrollBar.Value = 0;
-            this.T1ScrollBar.Maximum = T1Slice + this.T1ScrollBar.LargeChange - 2;
-            string indexText = string.Format("1 of {0}", T1Slice);
-            this.T1Index.Text = indexText;
-
-            this.Annot1ScrollBar.Value = 0;
-            Annot1ScrollBar.Maximum = T1Slice + Annot1ScrollBar.LargeChange - 2;
-            indexText = string.Format("1 of {0}", T1Slice);
-            Annot1Index.Text = indexText;
-
-            this.Annot2ScrollBar.Value = 0;
-            Annot2ScrollBar.Maximum = T1Slice + Annot2ScrollBar.LargeChange - 2;
-            indexText = string.Format("1 of {0}", T1Slice);
-            Annot2Index.Text = indexText;
         }
-        private void T2Display(string T2Path, int index)
+
+        private void loadT2(string T2Path, int index)
         {
             T2_name = string.Concat(patientList[index], "_T2_0000.nii.gz");
             string T2ImagePath = Path.Combine(T2Path, T2_name);
@@ -451,19 +418,11 @@ namespace SegViewer
             // Draw at upper-left corner.
             g.DrawString(T2_name, drawFont, drawBrush, 0.0f, 10.0f);
             this.OriT2.Image = T2AdjustedBmp;
-            // setScrollbar range
-            this.T2ScrollBar.Value = 0;
-            if (input.GetDimension() >= 2)
-            {
-                this.T2ScrollBar.Maximum = T2Slice;
-                this.T2ScrollBar.Maximum += this.T2ScrollBar.LargeChange - 2;
-            }
-            string indexText = string.Format("1 of {0}", T1Slice);
-            this.T2Index.Text = indexText;
+            
             T2Flag = true;
         }
 
-        private void annot1Display(string a1Path, int index)
+        private void loadAnnot1(string a1Path, int index)
         {
             A1_name = string.Concat(patientList[index], "_T1_annotation1.nii.gz"); 
             string a1ImagePath = Path.Combine(a1Path, A1_name);
@@ -486,32 +445,59 @@ namespace SegViewer
             int len = T1Height * T1Width * T1Slice;
             float[] bufferAsArray = new float[len];
             Marshal.Copy(buffer, bufferAsArray, 0, len);
-            Annot1Buffer = new Byte[len * 3];    //BGR
-
-            // *rotate and scale
+            
+            // rotate and scale
+            Annot1Buffer = new Byte[len];
             for (int i = 0; i < T1Slice; ++i)
             {
                 for (int j = 0; j < T1Height; ++j)
                 {
                     for (int k = 0; k < T1Width; ++k)
                     {
-                        Annot1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)];
-                        Annot1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1];
-                        Annot1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] + 100 * (int)bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height]));
+                        Annot1Buffer[k + j * T1Width + i * T1Width * T1Height] = (Byte)bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height];
                     }
                 }
             }
-            /*
-            for (int i = 0; i < len; ++i)
+            contour1Buffer = new byte[len];
+            
+            for(int i = 0; i < T1Slice; ++i)
             {
-                Annot1Buffer[3 * i] = T1Buffer[3 * i];
-                Annot1Buffer[3 * i + 1] = T1Buffer[3 * i + 1];
-                Annot1Buffer[3 * i + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * i + 2] + 100 * (int)bufferAsArray[i]));
+                //calculate canny contour for each slice
+                Byte[] sliceBuf = new byte[T1Height * T1Width];
+                Byte[] contourBuf = new byte[T1Height * T1Width];
+
+                // calculate contour of annot1
+                Array.Copy(Annot1Buffer,i * T1Height * T1Width, sliceBuf, 0, T1Height * T1Width);
+                Mat mSlice = new Mat(T1Height, T1Width,MatType.CV_8UC1, sliceBuf);
+                var mContour = new Mat();
+                mSlice = mSlice * 150;
+                Cv2.Canny(mSlice, mContour, 50, 200);
+                mContour = mContour / 255;
+                Cv2.Dilate(mContour, mContour, new Mat());
+                mContour.GetArray(0, 0, contourBuf);
+                Array.Copy(contourBuf, 0, contour1Buffer, i * T1Height * T1Width, T1Width * T1Height);
+                mSlice.Dispose();
+                mContour.Dispose();
             }
-            */
-            //Display image for annotation1
+
+            //Display image for annotation1         
+            int maskMod;
+            if(maskButton.Checked)
+            {
+                maskMod = 0;
+            }
+            else if(contourButton.Checked)
+            {
+                maskMod = 1;
+            }
+            else
+            {
+                maskMod = 2;
+            }
             Annot1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-            DiaplayImage(T1Width, T1Height, this.Annot1ScrollBar.Value, Annot1Buffer, ref Annot1imageBMP, ref Annotation1);
+            //DisplayAnnot(T1Width, T1Height, this.Annot1ScrollBar.Value, Annot1Buffer, T1Buffer, ref Annot1imageBMP, maskMod);
+            DisplayAnnot(T1Width, T1Height, 0, Annot1Buffer, T1Buffer, contour1Buffer, ref Annot1imageBMP, maskMod);
+
             Graphics g = Graphics.FromImage(Annot1imageBMP);
             // Create font and brush.
             Font drawFont = new Font("Arial", 14, FontStyle.Bold);
@@ -519,8 +505,11 @@ namespace SegViewer
             // Draw at upper-left corner.
             g.DrawString(A1_name, drawFont, drawBrush, 0.0f, 10.0f);
             Annot1Flag = true;
+
+            Annotation1.Image = Annot1imageBMP;
+            
         }
-        private void annot2Display(string a2Path, int index)
+        private void loadAnnot2(string a2Path, int index)
         {
             A2_name = string.Concat(patientList[index], "_T1_annotation2.nii.gz");
             string a2ImagePath = Path.Combine(a2Path, A2_name);
@@ -543,31 +532,58 @@ namespace SegViewer
             int len = T1Height * T1Width * T1Slice;
             float[] bufferAsArray = new float[len];
             Marshal.Copy(buffer, bufferAsArray, 0, len);
-            Annot2Buffer = new Byte[len * 3];    //BGR
-                                                 // *rotate and scale
+            Annot2Buffer = new Byte[len];   
             for (int i = 0; i < T1Slice; ++i)
             {
                 for (int j = 0; j < T1Height; ++j)
                 {
                     for (int k = 0; k < T1Width; ++k)
                     {
-                        Annot2Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height)];
-                        Annot2Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1] = T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 1];
-                        Annot2Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * (k + j * T1Width + i * T1Width * T1Height) + 2] + 100 * (int)bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height]));
+                        Annot2Buffer[k + j * T1Width + i * T1Width * T1Height] = (Byte)bufferAsArray[j + T1Height * (T1Width - 1 - k) + i * T1Width * T1Height];
                     }
                 }
             }
-            /*
-            for (int i = 0; i < len; ++i)
+
+            contour2Buffer = new byte[len];
+
+            for (int i = 0; i < T1Slice; ++i)
             {
-                Annot2Buffer[3 * i] = T1Buffer[3 * i];
-                Annot2Buffer[3 * i + 1] = T1Buffer[3 * i + 1];
-                Annot2Buffer[3 * i + 2] = (Byte)(Math.Min(255, (int)T1Buffer[3 * i + 2] + 100 * (int)bufferAsArray[i])); ;
+                //calculate canny contour for each slice
+                Byte[] sliceBuf = new byte[T1Height * T1Width];
+                Byte[] contourBuf = new byte[T1Height * T1Width];
+
+                // calculate contour of annot1
+                Array.Copy(Annot2Buffer, i * T1Height * T1Width, sliceBuf, 0, T1Height * T1Width);
+                Mat mSlice = new Mat(T1Height, T1Width, MatType.CV_8UC1, sliceBuf);
+                var mContour = new Mat();
+                mSlice = mSlice * 150;
+                Cv2.Canny(mSlice, mContour, 50, 200);
+                mContour = mContour / 255;
+                Cv2.Dilate(mContour, mContour, new Mat());
+                mContour.GetArray(0, 0, contourBuf);
+                Array.Copy(contourBuf, 0, contour2Buffer, i * T1Height * T1Width, T1Width * T1Height);
+                mSlice.Dispose();
+                mContour.Dispose();
             }
-            */
+
             //Display image for annotation2
+            int maskMod;
+            if (maskButton.Checked)
+            {
+                maskMod = 0;
+            }
+            else if (contourButton.Checked)
+            {
+                maskMod = 1;
+            }
+            else
+            {
+                maskMod = 2;
+            }
             Annot2imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
-            DiaplayImage(T1Width, T1Height, this.Annot2ScrollBar.Value, Annot2Buffer, ref Annot2imageBMP, ref Annotation2);
+            //DisplayAnnot(T1Width, T1Height, this.Annot2ScrollBar.Value, Annot2Buffer, T1Buffer, ref Annot2imageBMP, maskMod);
+            DisplayAnnot(T1Width, T1Height, 0, Annot2Buffer, T1Buffer, contour2Buffer, ref Annot2imageBMP, maskMod);
+
             Graphics g = Graphics.FromImage(Annot2imageBMP);
             // Create font and brush.
             Font drawFont = new Font("Arial", 14, FontStyle.Bold);
@@ -575,6 +591,10 @@ namespace SegViewer
             // Draw at upper-left corner.
             g.DrawString(A2_name, drawFont, drawBrush, 0.0f, 10.0f);
             Annot2Flag = true;
+
+            Annotation2.Image = Annot2imageBMP;
+            
+            
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -659,15 +679,32 @@ namespace SegViewer
                 }
                 else
                 {
-                    DiaplayImage(T1Width, T1Height, this.Annot1ScrollBar.Value, Annot1Buffer, ref Annot1imageBMP, ref Annotation1);
+                    int maskMod;
+                    if (maskButton.Checked)
+                    {
+                        maskMod = 0;
+                    }
+                    else if (contourButton.Checked)
+                    {
+                        maskMod = 1;
+                    }
+                    else
+                    {
+                        maskMod = 2;
+                    }
+                    DisplayAnnot(T1Width, T1Height, this.Annot1ScrollBar.Value, Annot1Buffer, T1Buffer, contour1Buffer, ref Annot1imageBMP, maskMod);
                     Graphics g = Graphics.FromImage(Annot1imageBMP);
+
                     // Create font and brush.
                     Font drawFont = new Font("Arial", 14, FontStyle.Bold);
                     SolidBrush drawBrush = new SolidBrush(Color.Red);
+
                     // Draw at upper-left corner.
                     g.DrawString(A1_name, drawFont, drawBrush, 0.0f, 10.0f);
                     string indexText = string.Format("{0} of {1}", this.Annot1ScrollBar.Value + 1, T1Slice);
                     this.Annot1Index.Text = indexText;
+
+                    Annotation1.Image = Annot1imageBMP;
                 }
                 if (this.synCheck.Checked)
                 {
@@ -693,15 +730,32 @@ namespace SegViewer
                 }
                 else
                 {
-                    DiaplayImage(T1Width, T1Height, this.Annot2ScrollBar.Value, Annot2Buffer, ref Annot2imageBMP, ref Annotation2);
+                    int maskMod;
+                    if (maskButton.Checked)
+                    {
+                        maskMod = 0;
+                    }
+                    else if (contourButton.Checked)
+                    {
+                        maskMod = 1;
+                    }
+                    else
+                    {
+                        maskMod = 2;
+                    }
+                    DisplayAnnot(T1Width, T1Height, this.Annot2ScrollBar.Value, Annot2Buffer, T1Buffer, contour2Buffer, ref Annot2imageBMP, maskMod);
                     Graphics g = Graphics.FromImage(Annot2imageBMP);
+
                     // Create font and brush.
                     Font drawFont = new Font("Arial", 14, FontStyle.Bold);
                     SolidBrush drawBrush = new SolidBrush(Color.Red);
+
                     // Draw at upper-left corner.
                     g.DrawString(A2_name, drawFont, drawBrush, 0.0f, 10.0f);
                     string indexText = string.Format("{0} of {1}", this.Annot2ScrollBar.Value + 1, T1Slice);
                     this.Annot2Index.Text = indexText;
+
+                    Annotation2.Image = Annot2imageBMP;
                 }
                 if (this.synCheck.Checked)
                 {
@@ -739,6 +793,59 @@ namespace SegViewer
             pBox.Image = image;
         }
 
+        private void DisplayAnnot(int width, int height, int slice, byte[] maskBuffer, byte[] imgBuffer, 
+            byte[] contourBuffer, ref Bitmap image, int maskType)
+        {
+            var BoundsRect = new Rectangle(0, 0, width, height);
+            BitmapData bmpData = image.LockBits(BoundsRect,
+                                            ImageLockMode.WriteOnly,
+                                            image.PixelFormat);
+            IntPtr ptr = bmpData.Scan0;
+            int stride = bmpData.Stride;
+            int offset = stride - width * 3;
+            int alignedBytes = bmpData.Stride * height;
+            byte[] alignedBuffer = new byte[alignedBytes];
+            if (maskType == 0)
+            {
+                //display with mask
+                //draw mask
+                // 
+                for (int i = 0; i < T1Height; ++i)
+                {
+                    for (int j = 0; j < T1Width; ++j)
+                    {
+                        //int bufoff = slice * T1Width * T1Height;
+                        alignedBuffer[3 * j + i * stride] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height)];
+                        alignedBuffer[3 * j + i * stride + 1] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 1];
+                        alignedBuffer[3 * j + i * stride + 2] = (Byte)(Math.Min(255, (int)imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 2] + 100 * (int)maskBuffer[j + i * T1Height + slice * T1Width * T1Height]));
+                    }
+                }
+            }
+            else if (maskType == 1)
+            {
+                //Contour
+                for (int i = 0; i < T1Height; ++i)
+                {
+                    for (int j = 0; j < T1Width; ++j)
+                    {
+                        //int bufoff = slice * T1Width * T1Height;
+                        alignedBuffer[3 * j + i * stride] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height)];
+                        alignedBuffer[3 * j + i * stride + 1] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 1];
+                        alignedBuffer[3 * j + i * stride + 2] = (Byte)(Math.Min(255, (int)imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 2] + 150 * (int)contourBuffer[j + i * T1Height + slice * T1Width * T1Height]));
+                    }
+                }
+            }
+            else if(maskType == 2)
+            {
+                //display with neither
+                for (int i = 0; i < height; ++i)
+                {
+                    Array.Copy(imgBuffer, width * 3 * i + slice * width * height * 3, alignedBuffer, stride * i, width * 3);
+                }
+            }
+            Marshal.Copy(alignedBuffer, 0, ptr, alignedBytes);
+            image.UnlockBits(bmpData);
+        }
         private void Contrast_ValueChanged(object sender, EventArgs e)
         {
             float contrast = ((float)this.ContrastScrollbar.Value + 1) / 50;
@@ -964,12 +1071,13 @@ namespace SegViewer
             //
             if (T1Flag && Annot1Flag && Annot2Flag)
             {
-                if (File.Exists(Path.Combine(rootPath, "QuestionaireResult.txt")))
+                string username = this.usernameText.Text;
+                if (File.Exists(Path.Combine(rootPath, "QuestionaireResult_" + username + ".txt")))
                 {
-                    File.Delete(Path.Combine(rootPath, "QuestionaireResult.txt"));
+                    File.Delete(Path.Combine(rootPath, "QuestionaireResult_" + username + ".txt"));
                 }
                 using (System.IO.StreamWriter file =
-                    new System.IO.StreamWriter(@Path.Combine(rootPath, "QuestionaireResult.txt"), true))
+                    new System.IO.StreamWriter(@Path.Combine(rootPath, "QuestionaireResult_" + username + ".txt"), true))
                 {
                     for(int i = 0;i< patientFinishFlag.Length;++i)
                     {
@@ -990,7 +1098,7 @@ namespace SegViewer
                     }
                 }
                 this.saveInfoDisplay.ForeColor = System.Drawing.Color.Red;
-                this.saveInfoDisplay.Text = "Save path:\n"+ Path.Combine(rootPath, "QuestionaireResult.txt");
+                this.saveInfoDisplay.Text = "Save path:\n"+ Path.Combine(rootPath, "QuestionaireResult_" + username + ".txt");
             }
             else
             {
@@ -1111,16 +1219,39 @@ namespace SegViewer
                 string annot1Path = Path.Combine(rootPath, "annotation1");
                 string annot2Path = Path.Combine(rootPath, "annotation2");
                 // T1WI
-                T1Display(rootPath,this.dataListView.FocusedItem.Index);
+                loadT1(rootPath,this.dataListView.FocusedItem.Index);
                 //Display T2
-                T2Display(T2Path, this.dataListView.FocusedItem.Index);
+                loadT2(T2Path, this.dataListView.FocusedItem.Index);
                 //Display A1
-                annot1Display(annot1Path, this.dataListView.FocusedItem.Index);
+                loadAnnot1(annot1Path, this.dataListView.FocusedItem.Index);
                 //DIsplay A2
-                annot2Display(annot2Path, this.dataListView.FocusedItem.Index);
+                loadAnnot2(annot2Path, this.dataListView.FocusedItem.Index);
+
+
+                // setScrollbar range
+                this.T1ScrollBar.Value = 0;
+                this.T1ScrollBar.Maximum = T1Slice + this.T1ScrollBar.LargeChange - 2;
+                string indexText = string.Format("1 of {0}", T1Slice);
+                this.T1Index.Text = indexText;
+
+                // setScrollbar range
+                this.T2ScrollBar.Value = 0;
+                this.T2ScrollBar.Maximum = T2Slice + this.T2ScrollBar.LargeChange - 2;
+                indexText = string.Format("1 of {0}", T1Slice);
+                this.T2Index.Text = indexText;
+
+                this.Annot1ScrollBar.Value = 0;
+                Annot1ScrollBar.Maximum = T1Slice + Annot1ScrollBar.LargeChange - 2;
+                indexText = string.Format("1 of {0}", T1Slice);
+                Annot1Index.Text = indexText;
+                
+                this.Annot2ScrollBar.Value = 0;
+                Annot2ScrollBar.Maximum = T1Slice + Annot2ScrollBar.LargeChange - 2;
+                indexText = string.Format("1 of {0}", T1Slice);
+                Annot2Index.Text = indexText;
 
                 // load answers
-                if(patientCheckFlag[this.dataListView.FocusedItem.Index] == true)
+                if (patientCheckFlag[this.dataListView.FocusedItem.Index] == true)
                 {
                     List<GroupBox> QBoxlist = new List<GroupBox>();
                     QBoxlist.Add(Q1Box);
@@ -1190,5 +1321,60 @@ namespace SegViewer
             }
             
         }
+
+        private void mask_Changed(object sender, EventArgs e)
+        {
+            RadioButton rb = (RadioButton)sender;
+            if(rb.Checked)
+            {
+                int maskMod;
+                if (maskButton.Checked)
+                {
+                    maskMod = 0;
+                }
+                else if (contourButton.Checked)
+                {
+                    maskMod = 1;
+                }
+                else
+                {
+                    maskMod = 2;
+                }
+                //Display image for annotation1
+                if (Annot1Flag == true)
+                {
+                    Annot1imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
+                    DisplayAnnot(T1Width, T1Height, this.Annot1ScrollBar.Value, Annot1Buffer, T1Buffer, contour1Buffer, ref Annot1imageBMP, maskMod);
+
+                    Graphics g = Graphics.FromImage(Annot1imageBMP);
+                    // Create font and brush.
+                    Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                    SolidBrush drawBrush = new SolidBrush(Color.Red);
+                    // Draw at upper-left corner.
+                    g.DrawString(A1_name, drawFont, drawBrush, 0.0f, 10.0f);
+                    Annot1Flag = true;
+
+                    Annotation1.Image = Annot1imageBMP;
+                }
+
+                //display annot2
+                if(Annot2Flag == true)
+                {
+                    Annot2imageBMP = new Bitmap(T1Width, T1Height, PixelFormat.Format24bppRgb);
+                    DisplayAnnot(T1Width, T1Height, this.Annot2ScrollBar.Value, Annot2Buffer, T1Buffer, contour2Buffer, ref Annot2imageBMP, maskMod);
+
+                    Graphics g = Graphics.FromImage(Annot2imageBMP);
+                    // Create font and brush.
+                    Font drawFont = new Font("Arial", 14, FontStyle.Bold);
+                    SolidBrush drawBrush = new SolidBrush(Color.Red);
+                    // Draw at upper-left corner.
+                    g.DrawString(A2_name, drawFont, drawBrush, 0.0f, 10.0f);
+                    Annot2Flag = true;
+
+                    Annotation2.Image = Annot2imageBMP;
+                }
+            }
+        }
+
     }
 }
