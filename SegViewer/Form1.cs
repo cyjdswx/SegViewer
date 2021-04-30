@@ -52,7 +52,7 @@ namespace SegViewer
         string rootPath;
         private int questionNum = 3;
         private int[,] answer;
-
+        private string[] remarks;
         float[][] ContrastArray = {
                             new float[] {1.0f, 0, 0, 0, 0},
                             new float[] {0, 1.0f, 0, 0, 0},
@@ -79,7 +79,8 @@ namespace SegViewer
                 string T2Path = Path.Combine(rootPath, "T2WI");
                 string annot1Path = Path.Combine(rootPath, "annotation1");
                 string annot2Path = Path.Combine(rootPath, "annotation2");
-                if(!Directory.Exists(T1Path) || !Directory.Exists(T2Path)
+                //if(!Directory.Exists(T1Path) || !Directory.Exists(T2Path)
+                if (!Directory.Exists(T1Path)
                     || !Directory.Exists(annot1Path) || !Directory.Exists(annot2Path))
                 {
                     MessageBox.Show("Please select correct path!", "Error");
@@ -93,7 +94,6 @@ namespace SegViewer
                 {
                     if (T1files[i].EndsWith(".nii.gz"))
                     {
-                        //lv.SubItems.Add("X");
                         var filenames = Path.GetFileName(T1files[i]).Split(new char[] { '.' })[0].Split('_');
                         if (filenames.Length < 3)
                         {
@@ -101,11 +101,9 @@ namespace SegViewer
                             return;
                         }
                         string patientName = filenames[0];
-                        string T2FileName = string.Concat(filenames[0], "_T2_", filenames[2], ".nii.gz");
                         string a1FileName = string.Concat(filenames[0], "_T1_annotation1", ".nii.gz");
                         string a2FileName = string.Concat(filenames[0], "_T1_annotation2", ".nii.gz");
-                        if (File.Exists(Path.Combine(Path.Combine(rootPath, "T2WI"), T2FileName))
-                            && File.Exists(Path.Combine(Path.Combine(rootPath, "annotation1"), a1FileName))
+                        if(File.Exists(Path.Combine(Path.Combine(rootPath, "annotation1"), a1FileName))
                             && File.Exists(Path.Combine(Path.Combine(rootPath, "annotation2"), a2FileName)))
                         {
                             ListViewItem lv = new ListViewItem(patientName, 0);
@@ -148,6 +146,7 @@ namespace SegViewer
                 }
 
                 answer = new int[T1files.Length, 9];
+                remarks = new string[T1files.Length];
                 patientCheckFlag = new bool[T1files.Length];
                 patientFinishFlag = new bool[T1files.Length];
                 for (int i = 0; i < T1files.Length; ++i)
@@ -177,10 +176,14 @@ namespace SegViewer
                                 patientCheckFlag[i] = true;
                                 patientFinishFlag[i] = true;
                                 this.dataListView.Items[i].SubItems[1].Text = "X";
-                                for (int j = 0; j < line_s.Length - 1; ++j)
+                                for (int j = 0; j < 9; ++j)
                                 {
                                     answer[i, j] = Int32.Parse(line_s[j + 1]);
                                 }
+                                //if (line_s.Length > 10)
+                                //{
+                                 //   remarks[i] = line_s[line_s.Length - 1];
+                                //}
                             }
                         }
                     }
@@ -222,6 +225,7 @@ namespace SegViewer
                         checkBoxes[1].Checked = false;
                     }
                 }
+                //this.RemarkBox.Text = remarks[this.dataListView.FocusedItem.Index];
                 preIndex = 0;
                 
             }
@@ -327,6 +331,11 @@ namespace SegViewer
         {
             T2_name = string.Concat(patientList[index], "_T2_0000.nii.gz");
             string T2ImagePath = Path.Combine(T2Path, T2_name);
+            if(!File.Exists(T2ImagePath))
+            {
+                T2Flag = false;
+                return;
+            }
             itk.simple.Image input = SimpleITK.ReadImage(T2ImagePath);
             input = SimpleITK.Cast(input, PixelId.sitkFloat32);
 
@@ -374,14 +383,6 @@ namespace SegViewer
                     }
                 }
             }
-            /*
-            for (int i = 0; i < len; ++i)
-            {
-                T2Buffer[3 * i] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
-                T2Buffer[3 * i + 1] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
-                T2Buffer[3 * i + 2] = (Byte)(bufferAsArray[i] / ImageHighestIntensity * 255);
-            }
-            */
             T2imageBMP = new Bitmap(T2Width, T2Height, PixelFormat.Format24bppRgb);
             var BoundsRect = new Rectangle(0, 0, T2Width, T2Height);
             BitmapData bmpData = T2imageBMP.LockBits(BoundsRect,
@@ -431,11 +432,10 @@ namespace SegViewer
             MinimumMaximumImageFilter filter = new MinimumMaximumImageFilter();
             filter.Execute(input);
             double MaskHighestIntensity = filter.GetMaximum();
-            double MaskLowestIntensity = filter.GetMinimum();
             filter.Dispose();
             VectorUInt32 size = input.GetSize();
 
-            if (size[0] != T1Width || size[1] != T1Height || size[2] != T1Slice || MaskHighestIntensity > 1)
+            if (size[1] != T1Width || size[0] != T1Height || size[2] != T1Slice || MaskHighestIntensity > 1)
             {
                 MessageBox.Show("Annotation mask error", "Error");
                 return;
@@ -522,7 +522,7 @@ namespace SegViewer
             filter.Dispose();
             VectorUInt32 size = input.GetSize();
 
-            if (size[0] != T1Width || size[1] != T1Height || size[2] != T1Slice || MaskHighestIntensity > 1)
+            if (size[1] != T1Width || size[0] != T1Height || size[2] != T1Slice || MaskHighestIntensity > 1)
             {
                 MessageBox.Show("Annotation mask error", "Error");
                 return;
@@ -603,7 +603,7 @@ namespace SegViewer
 
         private void T1ScrollBar_ValueChanged(object sender, EventArgs e)
         {
-            if (T1Slice > 1)
+            if (T1Flag)
             {
                 DiaplayImage(T1Width, T1Height, this.T1ScrollBar.Value, T1Buffer, ref T1imageBMP, ref OriT1);
                 ImageAttributes imageAttributes = new ImageAttributes();
@@ -637,7 +637,7 @@ namespace SegViewer
 
         private void T2ScrollBar_ValueChanged(object sender, EventArgs e)
         {
-            if (T2Slice > 1)
+            if (T2Flag)
             {
                 DiaplayImage(T2Width, T2Height, this.T2ScrollBar.Value, T2Buffer, ref T2imageBMP, ref OriT2);
                 ImageAttributes imageAttributes = new ImageAttributes();
@@ -817,7 +817,7 @@ namespace SegViewer
                         //int bufoff = slice * T1Width * T1Height;
                         alignedBuffer[3 * j + i * stride] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height)];
                         alignedBuffer[3 * j + i * stride + 1] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 1];
-                        alignedBuffer[3 * j + i * stride + 2] = (Byte)(Math.Min(255, (int)imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 2] + 100 * (int)maskBuffer[j + i * T1Height + slice * T1Width * T1Height]));
+                        alignedBuffer[3 * j + i * stride + 2] = (Byte)(Math.Min(255, (int)imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 2] + 100 * (int)maskBuffer[j + i * T1Width + slice * T1Width * T1Height]));
                     }
                 }
             }
@@ -831,7 +831,7 @@ namespace SegViewer
                         //int bufoff = slice * T1Width * T1Height;
                         alignedBuffer[3 * j + i * stride] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height)];
                         alignedBuffer[3 * j + i * stride + 1] = imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 1];
-                        alignedBuffer[3 * j + i * stride + 2] = (Byte)(Math.Min(255, (int)imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 2] + 150 * (int)contourBuffer[j + i * T1Height + slice * T1Width * T1Height]));
+                        alignedBuffer[3 * j + i * stride + 2] = (Byte)(Math.Min(255, (int)imgBuffer[3 * (j + i * T1Width + slice * T1Width * T1Height) + 2] + 150 * (int)contourBuffer[j + i * T1Width + slice * T1Width * T1Height]));
                     }
                 }
             }
@@ -1067,8 +1067,9 @@ namespace SegViewer
                 this.dataListView.Items[this.dataListView.FocusedItem.Index].SubItems[1].Text = "";
                 patientFinishFlag[this.dataListView.FocusedItem.Index] = false;
             }
+            remarks[this.dataListView.FocusedItem.Index] = this.RemarkBox.Text;
 
-            //
+            // write results
             if (T1Flag && Annot1Flag && Annot2Flag)
             {
                 string username = this.usernameText.Text;
@@ -1093,6 +1094,7 @@ namespace SegViewer
                             {
                                 tmpLine += " " + answer[i,j];
                             }
+                            tmpLine += " " + remarks[i];
                             file.WriteLine(tmpLine);
                         }
                     }
@@ -1213,8 +1215,15 @@ namespace SegViewer
                         this.dataListView.Items[preIndex].SubItems[1].Text = "";
                         patientFinishFlag[preIndex] = false;
                     }
+                    remarks[preIndex] = this.RemarkBox.Text;
                 }
-
+                // clear pic
+                this.OriT2.Image = null;
+                this.OriT1.Image = null;
+                this.Annotation1.Image = null;
+                this.Annotation2.Image = null;
+                this.RemarkBox.Text = "";
+                // load new data
                 string T2Path = Path.Combine(rootPath, "T2WI");
                 string annot1Path = Path.Combine(rootPath, "annotation1");
                 string annot2Path = Path.Combine(rootPath, "annotation2");
@@ -1231,22 +1240,26 @@ namespace SegViewer
                 // setScrollbar range
                 this.T1ScrollBar.Value = 0;
                 this.T1ScrollBar.Maximum = T1Slice + this.T1ScrollBar.LargeChange - 2;
+                this.T1ScrollBar.Maximum = Math.Max(this.T1ScrollBar.Maximum, 0);
                 string indexText = string.Format("1 of {0}", T1Slice);
                 this.T1Index.Text = indexText;
 
                 // setScrollbar range
                 this.T2ScrollBar.Value = 0;
                 this.T2ScrollBar.Maximum = T2Slice + this.T2ScrollBar.LargeChange - 2;
+                this.T2ScrollBar.Maximum = Math.Max(this.T2ScrollBar.Maximum, 0);
                 indexText = string.Format("1 of {0}", T1Slice);
                 this.T2Index.Text = indexText;
 
                 this.Annot1ScrollBar.Value = 0;
                 Annot1ScrollBar.Maximum = T1Slice + Annot1ScrollBar.LargeChange - 2;
+                Annot1ScrollBar.Maximum = Math.Max(Annot1ScrollBar.Maximum, 0);
                 indexText = string.Format("1 of {0}", T1Slice);
                 Annot1Index.Text = indexText;
-                
+
                 this.Annot2ScrollBar.Value = 0;
                 Annot2ScrollBar.Maximum = T1Slice + Annot2ScrollBar.LargeChange - 2;
+                Annot1ScrollBar.Maximum = Math.Max(Annot1ScrollBar.Maximum, 0);
                 indexText = string.Format("1 of {0}", T1Slice);
                 Annot2Index.Text = indexText;
 
@@ -1266,9 +1279,10 @@ namespace SegViewer
                         }
                         else
                         {
-                            radioButtons[0].Checked = false;
-                            radioButtons[1].Checked = false;
-                            radioButtons[2].Checked = false;
+                            for(int j = 0;j < radioButtons.Length;++j)
+                            {
+                                radioButtons[j].Checked = false;
+                            }
                         }
 
                         var checkBoxes = QBoxlist[i].Controls.OfType<CheckBox>().ToArray();
@@ -1289,6 +1303,7 @@ namespace SegViewer
                             checkBoxes[1].Checked = false;
                         }
                     }
+                    this.RemarkBox.Text = remarks[this.dataListView.FocusedItem.Index];
                 }
                 else
                 {
@@ -1375,6 +1390,5 @@ namespace SegViewer
                 }
             }
         }
-
     }
 }
